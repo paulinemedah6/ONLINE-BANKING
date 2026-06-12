@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inscription & Connexion - Online Banking</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0d47a1, #1976d2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      color: #e3f2fd;
+    }
+    .container {
+      border-radius: 20px;
+      width: 580px;
+      max-width: 100%;
+      padding: 35px 30px 45px 30px;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.15), 0 8px 30px rgba(25, 118, 210, 0.4);
+      text-align: center;
+    }
+    .logo {
+      margin-bottom: 20px;
+    }
+    .logo img {
+      width: 100px;
+      height: auto;
+      filter: drop-shadow(0 2px 5px rgba(255, 255, 255, 0.6));
+      transition: transform 0.3s ease;
+    }
+    .logo img:hover {
+      transform: scale(1.05);
+    }
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 5px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: transparent;
+      color: #bbdefb;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    .tab-btn.active {
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .form-container {
+      display: none;
+    }
+    .form-container.active {
+      display: block;
+    }
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: #bbdefb;
+    }
+    .input-wrapper {
+      position: relative;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 2px solid #90caf9;
+      outline: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      color: #0d47a1;
+      background: rgba(255, 255, 255, 0.95);
+      font-weight: 500;
+    }
+    input.error-input, select.error-input {
+      border-color: #ff5252;
+      background: #ffebee;
+    }
+    input:focus, select:focus {
+      border-color: #ffd54f;
+      background: #fff8e1;
+    }
+    .password-wrapper {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #1976d2;
+      font-size: 18px;
+      background: none;
+      border: none;
+    }
+    .error-msg {
+      font-size: 11px;
+      color: #ff5252;
+      margin-top: 5px;
+      display: block;
+      min-height: 18px;
+    }
+    .password-strength {
+      margin-top: 8px;
+    }
+    .strength-bar {
+      height: 4px;
+      border-radius: 2px;
+      background: #e0e0e0;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+    .strength-fill {
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+    .strength-text {
+      font-size: 11px;
+      color: #bbdefb;
+    }
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 0;
+    }
+    .form-row .form-group {
+      flex: 1;
+    }
+    button[type="submit"] {
+      margin-top: 10px;
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #64b5f6, #1976d2);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 17px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button[type="submit"]:hover {
+      background: linear-gradient(135deg, #1976d2, #42a5f5);
+      transform: translateY(-2px);
+    }
+    .global-message {
+      margin-top: 15px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .global-message.error {
+      color: #ff5252;
+      background: rgba(255, 82, 82, 0.15);
+    }
+    .global-message.success {
+      color: #69f0ae;
+      background: rgba(105, 240, 174, 0.15);
+    }
+    .switch-link {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #bbdefb;
+    }
+    .switch-link a {
+      color: #ffd54f;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    @media (max-width: 550px) {
+      .container {
+        padding: 25px 20px 35px 20px;
+      }
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="logo">
+    <img src="https://raw.githubusercontent.com/Walyy578/ONLINE-BANKING/main/Design%20sans%20titre%20(2).png" alt="Logo" />
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="register">Inscription</button>
+    <button class="tab-btn" data-tab="login">Connexion</button>
+  </div>
+
+  <!-- Formulaire d'inscription -->
+  <div id="register-container" class="form-container active">
+    <form id="register-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom *</label>
+          <input type="text" id="reg-firstname" placeholder="Votre prénom">
+          <span class="error-msg" id="reg-firstname-error"></span>
+        </div>
+        <div class="form-group">
+          <label>Nom *</label>
+          <input type="text" id="reg-lastname" placeholder="Votre nom">
+          <span class="error-msg" id="reg-lastname-error"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" id="reg-email" placeholder="exemple@domaine.com">
+        <span class="error-msg" id="reg-email-error"></span>
+      </div>
+
+      <div class="form-group">
+        <label>Mot de passe *</label>
+        <div class="password-wrapper">
+          <input type="password" id="reg-password" placeholder="Mot de passe">
+          <button type="button" class="toggle-password" data-target="reg-password">👁️</button>
+        </div>
+        <div class="password-strength">
+          <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+          <span class="strength-text" id="strength-text">Entrez un mot de passe</span>
+        </div>
+        <span class="error-msg" id="reg-password-error"></span>
+      </div>
+
+      <div class="form-group">
+        <label>Confirmer mot de passe *</label>
+        <div class="password-wrapper">
+          <input type="password" id="reg-confirm" placeholder="Confirmez">
+          <button type="button" class="toggle-password" data-target="reg-confirm">👁️</button>
+        </div>
+        <span class="error-msg" id="reg-confirm-error"></span>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Pays *</label>
+          <select id="reg-country">
+            <option value="">-- Sélectionnez --</option>
+          </select>
+          <span class="error-msg" id="reg-country-error"></span>
+        </div>
+        <div class="form-group">
+          <label>Devise *</label>
+          <select id="reg-currency">
+            <option value="">-- Sélectionnez --</option>
+            <option value="EUR">💶 Euro (EUR)</option>
+            <option value="USD">💵 Dollar US (USD)</option>
+            <option value="GBP">💷 Livre sterling (GBP)</option>
+            <option value="XOF">🪙 Franc CFA (XOF)</option>
+            <option value="MUR">🏝️ Roupie mauricienne (MUR)</option>
+            <option value="CAD">🍁 Dollar canadien (CAD)</option>
+            <option value="CHF">🇨🇭 Franc suisse (CHF)</option>
+            <option value="JPY">🇯🇵 Yen japonais (JPY)</option>
+          </select>
+          <span class="error-msg" id="reg-currency-error"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Téléphone</label>
+        <input type="tel" id="reg-phone" placeholder="+1234567890">
+        <span class="error-msg" id="reg-phone-error"></span>
+      </div>
+
+      <button type="submit">S'inscrire</button>
+    </form>
+  </div>
+
+  <!-- Formulaire de connexion -->
+  <div id="login-container" class="form-container">
+    <form id="login-form">
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" id="login-email" placeholder="exemple@domaine.com">
+        <span class="error-msg" id="login-email-error"></span>
+      </div>
+      <div class="form-group">
+        <label>Mot de passe *</label>
+        <div class="password-wrapper">
+          <input type="password" id="login-password" placeholder="Mot de passe">
+          <button type="button" class="toggle-password" data-target="login-password">👁️</button>
+        </div>
+        <span class="error-msg" id="login-password-error"></span>
+      </div>
+      <button type="submit">Se connecter</button>
+    </form>
+  </div>
+
+  <div id="global-message" class="global-message"></div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyD7ePIu7x4KbojvUD47DWSKbuqH5nzE5uc",
+    authDomain: "laafi-bf.firebaseapp.com",
+    projectId: "laafi-bf",
+    storageBucket: "laafi-bf.firebasestorage.app",
+    messagingSenderId: "837012050847",
+    appId: "1:837012050847:web:7af3904c055f74c996e3aa",
+    measurementId: "G-4TZC45GKE4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  // Liste des pays
+  const countries = [
+    "Afghanistan", "Afrique du Sud", "Albanie", "Algérie", "Allemagne", "Andorre", "Angola", "Argentine", "Australie", "Autriche",
+    "Belgique", "Bénin", "Brésil", "Burkina Faso", "Burundi", "Cambodge", "Cameroun", "Canada", "Chili", "Chine",
+    "Colombie", "Comores", "Congo", "Corée du Sud", "Costa Rica", "Côte d'Ivoire", "Croatie", "Danemark", "Égypte",
+    "Espagne", "Estonie", "États-Unis", "Éthiopie", "Finlande", "France", "Gabon", "Gambie", "Ghana", "Grèce",
+    "Guinée", "Haïti", "Inde", "Indonésie", "Iran", "Irlande", "Islande", "Israël", "Italie", "Japon",
+    "Jordanie", "Kazakhstan", "Kenya", "Koweït", "Laos", "Lettonie", "Liban", "Libéria", "Libye", "Lituanie",
+    "Luxembourg", "Madagascar", "Malaisie", "Mali", "Maroc", "Maurice", "Mauritanie", "Mexique", "Monaco", "Mongolie",
+    "Namibie", "Népal", "Niger", "Nigéria", "Norvège", "Nouvelle-Zélande", "Ouganda", "Ouzbékistan", "Pakistan",
+    "Pays-Bas", "Pérou", "Philippines", "Pologne", "Portugal", "Qatar", "Roumanie", "Royaume-Uni", "Russie", "Rwanda",
+    "Sénégal", "Serbie", "Singapour", "Slovaquie", "Slovénie", "Somalie", "Soudan", "Suède", "Suisse", "Syrie",
+    "Tanzanie", "Tchad", "Thaïlande", "Togo", "Tunisie", "Turquie", "Ukraine", "Uruguay", "Venezuela", "Vietnam",
+    "Yémen", "Zambie", "Zimbabwe"
+  ].sort();
+
+  const countrySelect = document.getElementById('reg-country');
+  countries.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    countrySelect.appendChild(opt);
+  });
+
+  const currencySymbols = { EUR: '€', USD: '$', GBP: '£', XOF: 'CFA', MUR: 'Rs', CAD: 'C$', CHF: 'CHF', JPY: '¥' };
+
+  // Fonction de force du mot de passe
+  function checkPasswordStrength(password) {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    
+    const fill = document.getElementById('strength-fill');
+    const text = document.getElementById('strength-text');
+    const colors = ['#ff5252', '#ff9800', '#ffc107', '#8bc34a', '#4caf50'];
+    const labels = ['Très faible', 'Faible', 'Moyen', 'Fort', 'Très fort'];
+    
+    if (password.length === 0) {
+      fill.style.width = '0%';
+      text.textContent = 'Entrez un mot de passe';
+      return 0;
+    }
+    fill.style.width = `${strength * 20}%`;
+    fill.style.background = colors[strength - 1] || '#4caf50';
+    text.textContent = labels[strength - 1] || 'Très faible';
+    return strength;
+  }
+
+  // Validation complète d'un champ avec message rouge
+  function validateField(value, rules, errorElement, fieldName) {
+    if (rules.required && !value) {
+      errorElement.textContent = `${fieldName} est requis`;
+      return false;
+    }
+    if (rules.email && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      errorElement.textContent = 'Email invalide';
+      return false;
+    }
+    if (rules.minLength && value && value.length < rules.minLength) {
+      errorElement.textContent = `${rules.minLength} caractères minimum`;
+      return false;
+    }
+    if (rules.passwordMatch && value) {
+      const pwd = document.getElementById('reg-password').value;
+      if (pwd !== value) {
+        errorElement.textContent = 'Les mots de passe ne correspondent pas';
+        return false;
+      }
+    }
+    if (rules.passwordStrength && value) {
+      const strength = checkPasswordStrength(value);
+      if (strength < 3) {
+        errorElement.textContent = 'Ajoutez majuscule, minuscule, chiffre et symbole';
+        return false;
+      }
+    }
+    errorElement.textContent = '';
+    return true;
+  }
+
+  // Réinitialisation des erreurs visuelles
+  function clearFieldError(inputId, errorId) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+    if (input) input.classList.remove('error-input');
+    if (error) error.textContent = '';
+  }
+
+  // Écouteurs en temps réel pour l'inscription
+  const regFirstname = document.getElementById('reg-firstname');
+  const regLastname = document.getElementById('reg-lastname');
+  const regEmail = document.getElementById('reg-email');
+  const regPassword = document.getElementById('reg-password');
+  const regConfirm = document.getElementById('reg-confirm');
+  const regCountry = document.getElementById('reg-country');
+  const regCurrency = document.getElementById('reg-currency');
+
+  regPassword.addEventListener('input', () => {
+    checkPasswordStrength(regPassword.value);
+    validateField(regPassword.value, { required: true, passwordStrength: true }, document.getElementById('reg-password-error'), 'Mot de passe');
+    if (regConfirm.value) {
+      validateField(regConfirm.value, { required: true, passwordMatch: true }, document.getElementById('reg-confirm-error'), 'Confirmation');
+    }
+  });
+
+  regConfirm.addEventListener('input', () => {
+    validateField(regConfirm.value, { required: true, passwordMatch: true }, document.getElementById('reg-confirm-error'), 'Confirmation');
+  });
+
+  regFirstname.addEventListener('input', () => validateField(regFirstname.value, { required: true }, document.getElementById('reg-firstname-error'), 'Prénom'));
+  regLastname.addEventListener('input', () => validateField(regLastname.value, { required: true }, document.getElementById('reg-lastname-error'), 'Nom'));
+  regEmail.addEventListener('input', () => validateField(regEmail.value, { required: true, email: true }, document.getElementById('reg-email-error'), 'Email'));
+  regCountry.addEventListener('change', () => validateField(regCountry.value, { required: true }, document.getElementById('reg-country-error'), 'Pays'));
+  regCurrency.addEventListener('change', () => validateField(regCurrency.value, { required: true }, document.getElementById('reg-currency-error'), 'Devise'));
+
+  // Toggle password visibility
+  document.querySelectorAll('.toggle-password').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      const input = document.getElementById(targetId);
+      input.type = input.type === 'password' ? 'text' : 'password';
+      btn.textContent = input.type === 'password' ? '👁️' : '🙈';
+    });
+  });
+
+  function showGlobalMessage(msg, isError = true) {
+    const div = document.getElementById('global-message');
+    div.textContent = msg;
+    div.className = `global-message ${isError ? 'error' : 'success'}`;
+    setTimeout(() => { div.textContent = ''; div.className = 'global-message'; }, 4000);
+  }
+
+  // Inscription
+  document.getElementById('register-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const firstname = regFirstname.value.trim();
+    const lastname = regLastname.value.trim();
+    const email = regEmail.value.trim();
+    const password = regPassword.value;
+    const country = regCountry.value;
+    const currency = regCurrency.value;
+    const phone = document.getElementById('reg-phone').value.trim();
+
+    const isFirstnameOk = validateField(firstname, { required: true }, document.getElementById('reg-firstname-error'), 'Prénom');
+    const isLastnameOk = validateField(lastname, { required: true }, document.getElementById('reg-lastname-error'), 'Nom');
+    const isEmailOk = validateField(email, { required: true, email: true }, document.getElementById('reg-email-error'), 'Email');
+    const isPwdOk = validateField(password, { required: true, passwordStrength: true }, document.getElementById('reg-password-error'), 'Mot de passe');
+    const isConfirmOk = validateField(regConfirm.value, { required: true, passwordMatch: true }, document.getElementById('reg-confirm-error'), 'Confirmation');
+    const isCountryOk = validateField(country, { required: true }, document.getElementById('reg-country-error'), 'Pays');
+    const isCurrencyOk = validateField(currency, { required: true }, document.getElementById('reg-currency-error'), 'Devise');
+
+    if (!isFirstnameOk || !isLastnameOk || !isEmailOk || !isPwdOk || !isConfirmOk || !isCountryOk || !isCurrencyOk) {
+      showGlobalMessage('Veuillez corriger les erreurs dans le formulaire');
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userId = userCredential.user.uid;
+      const currentDate = new Date().toISOString();
+      const currencySymbol = currencySymbols[currency] || currency.substring(0,1);
+      
+      await setDoc(doc(db, 'users', userId), {
+        uid: userId, firstname, lastname, fullName: `${firstname} ${lastname}`,
+        email, country, currency, currencySymbol, phone: phone || '',
+        iban: `MU${firstname.substring(0,2).toUpperCase()}${Math.floor(Math.random()*1000000)}`,
+        virtualCardNumber: '4532' + Math.random().toString().slice(2,14),
+        cardExpiry: '12/28', balance: 0, createdAt: currentDate
+      });
+      
+      await setDoc(doc(db, 'wallets', userId), {
+        userId, balance: 0, currency, currencySymbol, transactions: [],
+        notifications: [{ id: 1, message: `Bienvenue sur Vantex ! Compte créé en ${currency}.`, read: false, date: currentDate }],
+        unseenNotifications: 1, createdAt: currentDate
+      });
+      
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userId', userId);
+      showGlobalMessage('Inscription réussie ! Connexion en cours...', false);
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') showGlobalMessage('Cet email est déjà utilisé');
+      else showGlobalMessage('Erreur: ' + error.message);
+    }
+  });
+
+  // Connexion
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    let hasError = false;
+    
+    if (!email) {
+      document.getElementById('login-email-error').textContent = 'Email requis';
+      document.getElementById('login-email').classList.add('error-input');
+      hasError = true;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      document.getElementById('login-email-error').textContent = 'Email invalide';
+      document.getElementById('login-email').classList.add('error-input');
+      hasError = true;
+    } else {
+      document.getElementById('login-email-error').textContent = '';
+      document.getElementById('login-email').classList.remove('error-input');
+    }
+    
+    if (!password) {
+      document.getElementById('login-password-error').textContent = 'Mot de passe requis';
+      document.getElementById('login-password').classList.add('error-input');
+      hasError = true;
+    } else {
+      document.getElementById('login-password-error').textContent = '';
+      document.getElementById('login-password').classList.remove('error-input');
+    }
+    
+    if (hasError) return;
+    
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userId', userCredential.user.uid);
+      showGlobalMessage('Connexion réussie ! Redirection...', false);
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+    } catch (error) {
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential')
+        showGlobalMessage('Email ou mot de passe incorrect');
+      else showGlobalMessage('Erreur: ' + error.message);
+    }
+  });
+
+  // Gestion des onglets
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.form-container').forEach(c => c.classList.remove('active'));
+      document.getElementById(`${btn.dataset.tab}-container`).classList.add('active');
+      document.getElementById('global-message').textContent = '';
+    });
+  });
+</script>
+</body>
+</html>
