@@ -166,6 +166,12 @@
         align-items: center;
         gap: 7px;
         cursor: pointer;
+        box-shadow: 0 3px 6px rgb(25 118 210 / 0.15);
+    }
+    .actions button:hover {
+        background-color: #e3f2fd;
+        color: #0d47a1;
+        box-shadow: 0 5px 12px rgb(13 71 161 / 0.3);
     }
     .transaction {
         border-radius: 10px;
@@ -175,35 +181,60 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        box-shadow: 0 1px 4px rgb(0 0 0 / 0.05);
     }
     .transaction.sent { background-color: #ffeded; border: 1px solid #f5a1a1; }
     .transaction.received { background-color: #e6f4ea; border: 1px solid #a3d4a5; }
     .transaction.sent .amount { color: #d32f2f; }
     .transaction.received .amount { color: #388e3c; }
     .transaction .amount { font-weight: 700; }
+    .transaction .details .desc i { font-size: 16px; }
 
+    /* FOOTER ICONS - STYLE ORIGINAL RESTAURÉ */
     .footer-icons {
         display: flex;
         justify-content: space-around;
+        align-items: center;
         position: fixed;
         bottom: 0;
         width: 100%;
+        max-width: 100vw;
         background-color: #fff;
         box-shadow: 0 -3px 10px rgb(0 0 0 / 0.12);
         padding: 10px 5px;
         z-index: 10;
+        flex-shrink: 0;
     }
     .footer-icons div {
         text-align: center;
         flex-grow: 1;
         cursor: pointer;
+        border-radius: 8px;
         padding: 5px 0;
         color: #1976d2;
+        transition: background-color 0.3s ease;
+        user-select: none;
     }
     .footer-icons div.active {
         background-color: #1976d2;
         color: white;
+        font-weight: 700;
+        box-shadow: 0 0 10px rgb(25 118 210 / 0.6);
     }
+    .footer-icons div:hover:not(.active) {
+        background-color: #e3f2fd;
+    }
+    .footer-icons i {
+        font-size: 24px;
+        pointer-events: none;
+    }
+    .footer-icons span {
+        display: block;
+        font-size: 13px;
+        margin-top: 5px;
+        user-select: none;
+    }
+
     .modal {
         display: none;
         position: fixed;
@@ -231,7 +262,6 @@
         text-align: left;
     }
     .info-card p { margin: 8px 0; }
-    .no-data { color: #999; font-style: italic; }
     .card-image {
         max-width: 100%;
         border-radius: 12px;
@@ -281,11 +311,24 @@
     <div id="transactionsList"></div>
 </div>
 
-<nav class="footer-icons">
-    <div id="portefeuilleBtn" class="active"><i class="fas fa-wallet"></i><span>Portefeuille</span></div>
-    <div id="virementBtn"><i class="fas fa-exchange-alt"></i><span>Virement</span></div>
-    <div id="virtualCardBtn"><i class="fas fa-credit-card"></i><span>Carte</span></div>
-    <div id="monCompteBtn"><i class="fas fa-user-circle"></i><span>Mon compte</span></div>
+<!-- FOOTER AVEC LE STYLE ORIGINAL -->
+<nav class="footer-icons" role="navigation" aria-label="Menu principal">
+    <div id="portefeuilleBtn" class="active" tabindex="0" role="button" aria-pressed="true" aria-label="Portefeuille">
+        <i class="fas fa-wallet" aria-hidden="true"></i>
+        <span>Portefeuille</span>
+    </div>
+    <div id="virementBtn" tabindex="0" role="button" aria-label="Virement">
+        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
+        <span>Virement</span>
+    </div>
+    <div id="virtualCardBtn" tabindex="0" role="button" aria-label="Carte virtuelle">
+        <i class="fas fa-credit-card" aria-hidden="true"></i>
+        <span>Carte virtuelle</span>
+    </div>
+    <div id="monCompteBtn" tabindex="0" role="button" aria-label="Mon compte">
+        <i class="fas fa-user-circle" aria-hidden="true"></i>
+        <span>Mon compte</span>
+    </div>
 </nav>
 
 <!-- MODALE CARTE VIRTUELLE -->
@@ -293,7 +336,6 @@
     <div class="modal-content">
         <h3 style="color:#1976d2;">Carte virtuelle</h3>
         <div id="cardContainer">
-            <!-- Le contenu sera chargé dynamiquement -->
             <div class="no-card" id="noCardMessage">
                 <i class="fas fa-credit-card"></i>
                 <p>Aucune carte virtuelle disponible</p>
@@ -345,7 +387,6 @@
   const db = getFirestore(app);
   const auth = getAuth(app);
 
-  // Symboles des devises
   const currencySymbols = {
     'EUR': '€', 'USD': '$', 'GBP': '£', 'XOF': 'CFA', 'XAF': 'CFA',
     'MUR': 'Rs', 'CAD': 'C$', 'CHF': 'CHF', 'JPY': '¥', 'CNY': '¥',
@@ -353,7 +394,6 @@
     'NGN': '₦', 'ZAR': 'R', 'EGP': 'E£', 'KES': 'KSh', 'GHS': '₵'
   };
 
-  // DOM Elements
   const soldeSpan = document.getElementById('soldeMontant');
   const userNameSpan = document.getElementById('user-name');
   const transactionsDiv = document.getElementById('transactionsList');
@@ -440,9 +480,7 @@
         await setDoc(walletRef, { 
           balance: 0, 
           transactions: [], 
-          notifications: [
-            { id: 1, message: 'Bienvenue sur Vantex !', read: false, date: new Date().toISOString() }
-          ], 
+          notifications: [{ id: 1, message: 'Bienvenue sur Vantex !', read: false, date: new Date().toISOString() }], 
           unseenNotifications: 1, 
           createdAt: new Date().toISOString() 
         });
@@ -451,21 +489,13 @@
     });
   }
 
-  // Afficher la carte virtuelle (image depuis Firestore)
   function displayVirtualCard() {
     const cardContainer = document.getElementById('cardContainer');
-    const cardImageUrl = userData.virtualCardImage; // URL de l'image dans Firestore
+    const cardImageUrl = userData.virtualCardImage;
     
     if (cardImageUrl && cardImageUrl.trim() !== '') {
-      // Afficher la carte avec l'image
-      cardContainer.innerHTML = `
-        <div style="text-align:center;">
-          <img src="${cardImageUrl}" alt="Carte virtuelle" class="card-image" style="max-width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" />
-          <p style="margin-top:10px; color:#666; font-size:12px;">Carte virtuelle - Utilisation sécurisée</p>
-        </div>
-      `;
+      cardContainer.innerHTML = `<img src="${cardImageUrl}" alt="Carte virtuelle" class="card-image" />`;
     } else {
-      // Pas de carte - afficher message
       cardContainer.innerHTML = `
         <div class="no-card">
           <i class="fas fa-credit-card"></i>
@@ -491,7 +521,6 @@
     document.getElementById('infoAccountType').textContent = userData.accountType || 'Compte courant';
     document.getElementById('infoHasCard').textContent = hasCard ? '✅ Active' : '❌ Aucune carte';
     
-    // Mettre à jour l'affichage de la carte
     displayVirtualCard();
   }
 
@@ -525,14 +554,9 @@
 
   async function markNotificationsAsSeen(userId) {
     if (!userId) return;
-    const walletRef = doc(db, 'wallets', userId);
-    const docSnap = await getDoc(walletRef);
-    if (docSnap.exists()) {
-      await updateDoc(walletRef, { unseenNotifications: 0 });
-    }
+    await updateDoc(doc(db, 'wallets', userId), { unseenNotifications: 0 });
   }
 
-  // UI Events
   const portefeuilleBtn = document.getElementById("portefeuilleBtn");
   const virementBtn = document.getElementById("virementBtn");
   const virtualCardBtn = document.getElementById("virtualCardBtn");
