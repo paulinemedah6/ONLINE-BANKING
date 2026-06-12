@@ -3,291 +3,238 @@
 <head>  
 <meta name="robots" content="noindex, nofollow">
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/> 
 <title>Portefeuille - Vantex</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <style>
-    /* RESET + BASE RESPONSIVE */
-    * {
+    html, body {
+        overflow-y: auto;
+        height: 100%;
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
     }
-
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
     body {
-        font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-        background: #f5f7fb;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9fbfc;
+        margin: 0;
         min-height: 100vh;
-        padding: env(safe-area-inset-top) env(safe-area-inset-right) 80px env(safe-area-inset-left);
         display: flex;
         flex-direction: column;
-        align-items: center;
         justify-content: flex-start;
-    }
-
-    /* Conteneur principal glissant / centré */
-    .app-container {
-        width: 100%;
-        max-width: 500px;
-        margin: 0 auto;
-        padding: 12px 12px 20px;
-    }
-
-    /* HEADER STICKY (adapté aux encoches) */
-    #topHeader {
-        width: 100%;
-        max-width: 500px;
-        margin: 0 auto 12px;
-        display: flex;
-        justify-content: space-between;
         align-items: center;
-        background: rgba(255,255,255,0.96);
-        backdrop-filter: blur(2px);
-        padding: 12px 16px;
-        border-radius: 28px;
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.02);
-        position: sticky;
-        top: 8px;
-        z-index: 200;
+        padding: 10px 10px 70px;
+        color: #222;
+    }
+
+    #topHeader {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 10px 5px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.07);
+      position: sticky;
+      top: 0;
+      z-index: 200;
     }
 
     .logo-container img {
-        height: 48px;
-        width: auto;
-        max-width: 130px;
-        object-fit: contain;
+      height: 60px;
+      width: auto;
     }
 
     .header-right {
-        display: flex;
-        align-items: center;
-        gap: 18px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
 
     .user-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #1976d2, #0b5ba6);
-        color: white;
-        font-weight: 700;
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #1976d2;
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 40px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
     }
-    .user-icon:active { transform: scale(0.96); }
 
     .user-icon img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .notif-wrapper {
-        position: relative;
+      position: relative;
     }
 
     #notificationBtn {
-        background: #f0f2f8;
-        border: none;
-        width: 44px;
-        height: 44px;
-        border-radius: 30px;
-        cursor: pointer;
-        color: #1976d2;
-        font-size: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #1976d2;
+      font-size: 22px;
     }
-    #notificationBtn:active { background: #e0e4ed; transform: scale(0.96); }
 
     .notif-badge {
-        position: absolute;
-        top: -2px;
-        right: -2px;
-        background: #d32f2f;
-        color: white;
-        font-size: 11px;
-        font-weight: bold;
-        min-width: 20px;
-        height: 20px;
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0 5px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      position: absolute;
+      top: -4px;
+      right: -6px;
+      background-color: #d32f2f;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 12px;
     }
 
     .notification-list {
-        position: fixed;
-        top: 85px;
-        right: 12px;
-        background: white;
-        width: calc(100% - 24px);
-        max-width: 320px;
-        border-radius: 24px;
-        box-shadow: 0 20px 35px -12px rgba(0,0,0,0.25);
-        padding: 12px 0;
-        z-index: 250;
-        display: none;
-        backdrop-filter: blur(2px);
-        border: 1px solid rgba(0,0,0,0.05);
-    }
-    .notification-list ul {
-        list-style: none;
-        max-height: 280px;
-        overflow-y: auto;
-    }
-    .notification-list li {
-        padding: 12px 18px;
-        border-bottom: 1px solid #f0f0f0;
-        font-size: 14px;
-        color: #1e2a3e;
+      position: fixed;
+      top: 70px;
+      right: 10px;
+      background: white;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
+      border-radius: 8px;
+      width: 280px;
+      max-height: 250px;
+      overflow-y: auto;
+      padding: 10px;
+      z-index: 250;
+      display: none;
     }
 
-    /* welcome card */
     .welcome-container {
-        background: #ffffff;
+        background-color: #fff;
+        max-width: 400px;
         width: 100%;
-        border-radius: 28px;
-        padding: 18px 20px;
-        margin-bottom: 16px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0,0,0,0.05);
+        border-radius: 12px;
+        padding: 15px 20px;
+        box-shadow: 0 4px 12px rgb(0 0 0 / 0.07);
+        margin-bottom: 15px;
         text-align: center;
-        transition: all 0.2s;
     }
     .welcome-container h1 {
-        font-size: 1.7rem;
         font-weight: 700;
-        color: #0a2540;
-        margin-bottom: 6px;
+        font-size: 22px;
+        margin: 0 0 6px 0;
+        color: #1976d2;
     }
-    .welcome-container h1 span { color: #1976d2; }
-    .welcome-container p { color: #5e6f8d; font-size: 0.9rem; }
 
-    /* section portefeuille */
     #portefeuilleSection {
-        background: white;
+        background-color: #fff;
+        max-width: 400px;
         width: 100%;
-        border-radius: 32px;
-        padding: 24px 20px;
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05);
-        transition: all 0.2s;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+        padding: 20px;
     }
-    .solde-montant {
-        font-size: 2.4rem;
-        font-weight: 800;
-        color: #0a2540;
-        margin: 0 0 18px 0;
-        letter-spacing: -0.3px;
-        word-break: break-word;
+    #portefeuilleSection .solde-montant {
+        font-size: 30px;
+        font-weight: 700;
+        color: #000;
+        margin: 0 0 12px 0;
     }
     .actions {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 28px;
+        gap: 10px;
+        margin-bottom: 20px;
     }
     .actions button {
-        flex: 1 1 0px;
-        min-width: 110px;
-        background: #f8fafd;
-        border: 1px solid #e9eef3;
-        border-radius: 40px;
-        padding: 12px 6px;
+        flex: 1 1 130px;
+        background-color: #f2f8ff;
+        border: none;
+        border-radius: 12px;
+        padding: 9px 16px;
+        font-size: 13px;
         font-weight: 600;
-        font-size: 14px;
         color: #1976d2;
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        gap: 8px;
+        gap: 7px;
         cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        box-shadow: 0 3px 6px rgb(25 118 210 / 0.15);
     }
-    .actions button:active {
-        background: #eef3fc;
-        transform: scale(0.97);
-        border-color: #1976d2;
-    }
-    h4 {
-        font-size: 1.2rem;
-        margin: 10px 0 14px;
-        color: #2c3e50;
-        display: flex;
-        align-items: center;
-        gap: 8px;
+    .actions button:hover {
+        background-color: #e3f2fd;
+        color: #0d47a1;
+        box-shadow: 0 5px 12px rgb(13 71 161 / 0.3);
     }
     .transaction {
-        background: #fefefe;
-        border-radius: 20px;
-        padding: 14px 16px;
-        margin-bottom: 12px;
+        border-radius: 10px;
+        background-color: #f9fafb;
+        padding: 12px 16px;
+        margin-bottom: 14px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        border: 1px solid #edf2f7;
-        transition: 0.1s;
+        box-shadow: 0 1px 4px rgb(0 0 0 / 0.05);
     }
-    .transaction.sent { background: #fff5f5; border-left: 5px solid #e53e3e; }
-    .transaction.received { background: #f0fff4; border-left: 5px solid #38a169; }
-    .transaction .amount { font-weight: 800; font-size: 1rem; }
+    .transaction.sent { background-color: #ffeded; border: 1px solid #f5a1a1; }
+    .transaction.received { background-color: #e6f4ea; border: 1px solid #a3d4a5; }
+    .transaction.sent .amount { color: #d32f2f; }
+    .transaction.received .amount { color: #388e3c; }
+    .transaction .amount { font-weight: 700; }
+    .transaction .details .desc i { font-size: 16px; }
 
-    /* FOOTER STYLE ORIGINAL AMÉLIORÉ TOUCH */
+    /* FOOTER ICONS - STYLE ORIGINAL RESTAURÉ */
     .footer-icons {
         display: flex;
         justify-content: space-around;
         align-items: center;
         position: fixed;
         bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(255,255,255,0.96);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
-        padding: 8px 12px 12px;
-        z-index: 100;
-        border-top: 0.5px solid rgba(0,0,0,0.05);
+        width: 100%;
+        max-width: 100vw;
+        background-color: #fff;
+        box-shadow: 0 -3px 10px rgb(0 0 0 / 0.12);
+        padding: 10px 5px;
+        z-index: 10;
+        flex-shrink: 0;
     }
     .footer-icons div {
         text-align: center;
-        flex: 1;
+        flex-grow: 1;
         cursor: pointer;
-        padding: 8px 4px;
-        border-radius: 40px;
-        transition: all 0.2s ease;
-        color: #6c86a3;
-        font-weight: 500;
-        touch-action: manipulation;
+        border-radius: 8px;
+        padding: 5px 0;
+        color: #1976d2;
+        transition: background-color 0.3s ease;
+        user-select: none;
     }
     .footer-icons div.active {
-        background: #1976d2;
+        background-color: #1976d2;
         color: white;
-        box-shadow: 0 6px 12px rgba(25,118,210,0.25);
+        font-weight: 700;
+        box-shadow: 0 0 10px rgb(25 118 210 / 0.6);
+    }
+    .footer-icons div:hover:not(.active) {
+        background-color: #e3f2fd;
     }
     .footer-icons i {
         font-size: 24px;
-        margin-bottom: 4px;
-        display: inline-block;
+        pointer-events: none;
     }
     .footer-icons span {
-        font-size: 11px;
-        font-weight: 500;
         display: block;
-        margin-top: 2px;
+        font-size: 13px;
+        margin-top: 5px;
+        user-select: none;
     }
-    /* MODAL RESPONSIVE */
+
     .modal {
         display: none;
         position: fixed;
@@ -296,138 +243,113 @@
         width: 100%;
         height: 100%;
         background: rgba(0,0,0,0.5);
-        backdrop-filter: blur(4px);
-        z-index: 300;
+        z-index: 100;
         justify-content: center;
         align-items: center;
-        padding: 20px;
     }
     .modal-content {
-        max-width: 480px;
-        width: 100%;
-        background: #ffffff;
-        border-radius: 40px;
-        padding: 24px 20px;
-        max-height: 85vh;
-        overflow-y: auto;
-        box-shadow: 0 25px 40px rgba(0,0,0,0.2);
+        max-width: 400px;
+        background: #fff;
+        border-radius: 20px;
+        padding: 20px;
+        text-align: center;
     }
     .info-card {
-        background: #f9fafc;
-        border-radius: 24px;
-        padding: 18px;
-        margin: 12px 0;
-    }
-    .info-card p {
+        background: #f5f5f5;
+        padding: 12px;
+        border-radius: 10px;
         margin: 10px 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        font-size: 0.9rem;
+        text-align: left;
     }
+    .info-card p { margin: 8px 0; }
     .card-image {
-        width: 100%;
-        max-width: 320px;
-        margin: 0 auto;
-        display: block;
-        border-radius: 20px;
-        box-shadow: 0 12px 18px -8px rgba(0,0,0,0.2);
+        max-width: 100%;
+        border-radius: 12px;
+        margin: 10px 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
     .no-card {
         text-align: center;
-        padding: 30px 12px;
-        background: #faf9fe;
-        border-radius: 28px;
+        padding: 40px 20px;
+        color: #999;
     }
-    button, .footer-icons div, .actions button, .user-icon, #notificationBtn {
-        cursor: pointer;
-        touch-action: manipulation;
-    }
-    @media (max-width: 480px) {
-        .actions button { font-size: 12px; padding: 10px 4px; min-width: 90px; }
-        .solde-montant { font-size: 2rem; }
-        .welcome-container h1 { font-size: 1.5rem; }
-        .footer-icons i { font-size: 22px; }
-        .footer-icons span { font-size: 10px; }
-        #topHeader { padding: 10px 14px; }
-    }
-    @media (max-width: 380px) {
-        .actions button span { display: none; }
-        .actions button i { margin: 0; font-size: 1.2rem; }
-        .actions button { justify-content: center; min-width: 55px; }
+    .no-card i {
+        font-size: 48px;
+        margin-bottom: 15px;
+        color: #ccc;
     }
 </style>
 </head>
 <body>
-<div class="app-container">
-    <header id="topHeader">
-        <div class="logo-container">
-            <img src="https://raw.githubusercontent.com/Walyy578/ONLINE-BANKING/main/Design%20sans%20titre%20(2).png" alt="Logo Vantex" />
-        </div>
-        <div class="header-right">
-            <div class="notif-wrapper">
-                <button id="notificationBtn" aria-label="Notifications"><i class="fas fa-bell"></i><span id="notif-badge" class="notif-badge" style="display:none;">0</span></button>
-                <div id="notificationList" class="notification-list"><ul id="notificationItems"></ul></div>
-            </div>
-            <div id="userIcon" class="user-icon"><span id="userInitials"></span><img id="userPhoto" style="display:none;" alt="photo profil"/><input type="file" id="photoUpload" style="display:none" accept="image/*"/></div>
-        </div>
-    </header>
 
-    <div class="welcome-container">
-        <h1>Bienvenue, <span id="user-name">...</span> !</h1>
-        <p>Vos finances à portée de main</p>
+<header id="topHeader">
+  <div class="logo-container">
+    <img src="https://raw.githubusercontent.com/Walyy578/ONLINE-BANKING/main/Design%20sans%20titre%20(2).png" alt="Logo" />
+  </div>
+  <div class="header-right">
+    <div class="notif-wrapper">
+      <button id="notificationBtn"><i class="fas fa-bell"></i><span id="notif-badge" class="notif-badge" style="display:none;">0</span></button>
+      <div id="notificationList" class="notification-list"><ul id="notificationItems"></ul></div>
     </div>
+    <div id="userIcon" class="user-icon"><span id="userInitials"></span><img id="userPhoto" style="display:none;"/><input type="file" id="photoUpload" style="display:none"/></div>
+  </div>
+</header>
 
-    <div id="portefeuilleSection">
-        <p class="solde-montant" id="soldeMontant">0,00</p>
-        <div class="actions">
-            <button id="btnVoirIban"><i class="fas fa-file-invoice"></i><span> Mon IBAN</span></button>
-            <button id="btnEffectuerVirement"><i class="fas fa-arrow-up-right-from-square"></i><span> Virement</span></button>
-            <button id="btnVoirCarteVirtuelle"><i class="fas fa-credit-card"></i><span> Ma carte</span></button>
-        </div>
-        <h4><i class="fas fa-clock-rotate-left"></i> Historique des mouvements</h4>
-        <div id="transactionsList"></div>
-    </div>
+<div class="welcome-container">
+    <h1>Bienvenue, <span id="user-name">...</span> !</h1>
+    <p>Gérez votre compte en toute simplicité</p>
 </div>
 
+<div id="portefeuilleSection">
+    <p class="solde-montant" id="soldeMontant">0,00</p>
+    <div class="actions">
+        <button id="btnVoirIban"><i class="fas fa-file-invoice"></i> Mon IBAN</button>
+        <button id="btnEffectuerVirement"><i class="fas fa-arrow-up-right-from-square"></i> Virement</button>
+        <button id="btnVoirCarteVirtuelle"><i class="fas fa-credit-card"></i> Ma carte</button>
+    </div>
+    <h4><i class="fas fa-clock-rotate-left"></i> Historique</h4>
+    <div id="transactionsList"></div>
+</div>
+
+<!-- FOOTER AVEC LE STYLE ORIGINAL -->
 <nav class="footer-icons" role="navigation" aria-label="Menu principal">
-    <div id="portefeuilleBtn" class="active" tabindex="0" role="button" aria-label="Portefeuille">
-        <i class="fas fa-wallet"></i>
+    <div id="portefeuilleBtn" class="active" tabindex="0" role="button" aria-pressed="true" aria-label="Portefeuille">
+        <i class="fas fa-wallet" aria-hidden="true"></i>
         <span>Portefeuille</span>
     </div>
     <div id="virementBtn" tabindex="0" role="button" aria-label="Virement">
-        <i class="fas fa-exchange-alt"></i>
+        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
         <span>Virement</span>
     </div>
     <div id="virtualCardBtn" tabindex="0" role="button" aria-label="Carte virtuelle">
-        <i class="fas fa-credit-card"></i>
-        <span>Carte</span>
+        <i class="fas fa-credit-card" aria-hidden="true"></i>
+        <span>Carte virtuelle</span>
     </div>
     <div id="monCompteBtn" tabindex="0" role="button" aria-label="Mon compte">
-        <i class="fas fa-user-circle"></i>
-        <span>Compte</span>
+        <i class="fas fa-user-circle" aria-hidden="true"></i>
+        <span>Mon compte</span>
     </div>
 </nav>
 
 <!-- MODALE CARTE VIRTUELLE -->
 <div id="virtualCardModal" class="modal">
     <div class="modal-content">
-        <h3 style="color:#1976d2; margin-bottom: 16px; text-align:center;">💳 Carte virtuelle</h3>
+        <h3 style="color:#1976d2;">Carte virtuelle</h3>
         <div id="cardContainer">
-            <div class="no-card">
-                <i class="fas fa-credit-card" style="font-size: 48px; color:#ccc;"></i>
+            <div class="no-card" id="noCardMessage">
+                <i class="fas fa-credit-card"></i>
                 <p>Aucune carte virtuelle disponible</p>
                 <small>Contactez votre banque pour obtenir une carte</small>
             </div>
         </div>
-        <button id="closeVirtualCardBtn" style="background:#1e2a3e; color:#fff; border:none; padding:14px 20px; border-radius:40px; margin-top:20px; width:100%; font-weight:600;">Fermer</button>
+        <button id="closeVirtualCardBtn" style="background:#d32f2f; color:#fff; border:none; padding:10px 25px; border-radius:8px; margin-top:15px;">Fermer</button>
     </div>
 </div>
 
 <!-- MODALE MON COMPTE -->
 <div id="myModal" class="modal">
     <div class="modal-content" style="text-align:left;">
-        <h3 style="color:#1976d2; text-align:center; margin-bottom: 10px;">👤 Mon profil bancaire</h3>
+        <h3 style="color:#1976d2; text-align:center;">Mes informations</h3>
         <div id="userInfoContainer">
             <div class="info-card">
                 <p><strong>👤 Nom complet :</strong> <span id="infoFullName">---</span></p>
@@ -437,19 +359,19 @@
                 <p><strong>📞 Téléphone :</strong> <span id="infoPhone">Non renseigné</span></p>
                 <p><strong>🏦 IBAN :</strong> <span id="infoIban">---</span></p>
                 <p><strong>📋 Type compte :</strong> <span id="infoAccountType">Compte courant</span></p>
-                <p><strong>💳 Carte virtuelle :</strong> <span id="infoHasCard">---</span></p>
+                <p><strong>💳 Carte :</strong> <span id="infoHasCard">---</span></p>
             </div>
         </div>
-        <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:24px;">
-            <button id="btnSeDeconnecter" style="background:#d32f2f; color:white; border:none; padding:14px 12px; border-radius:60px; flex:1; font-weight:600;">Déconnexion</button>
-            <button id="btnCloseMyAccount" style="background:#1976d2; color:white; border:none; padding:14px 12px; border-radius:60px; flex:1; font-weight:600;">Fermer</button>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button id="btnSeDeconnecter" style="background:#d32f2f; color:#fff; border:none; padding:10px; border-radius:8px; flex:1;">Déconnexion</button>
+            <button id="btnCloseMyAccount" style="background:#1976d2; color:#fff; border:none; padding:10px; border-radius:8px; flex:1;">Fermer</button>
         </div>
     </div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   
   const firebaseConfig = {
@@ -489,7 +411,7 @@
   let userData = {};
 
   function getCurrencySymbol(currencyCode) {
-    return currencySymbols[currencyCode] || currencyCode || 'MUR';
+    return currencySymbols[currencyCode] || currencyCode || 'Rs';
   }
 
   function formatMoney(amount, currencyCode) {
@@ -500,7 +422,7 @@
   function displayTransactions(transactions, currencyCode) {
     if (!transactionsDiv) return;
     if (!transactions || transactions.length === 0) {
-      transactionsDiv.innerHTML = '<div style="text-align:center;padding:24px;color:#7f8c8d;">📭 Aucune transaction récente</div>';
+      transactionsDiv.innerHTML = '<p style="text-align:center;color:#888;">Aucune transaction</p>';
       return;
     }
     const symbol = getCurrencySymbol(currencyCode);
@@ -510,7 +432,7 @@
       const amountPrefix = isSent ? '- ' : '+ ';
       const icon = isSent ? '📤' : '📥';
       const title = isSent ? `Virement à ${t.counterparty || 'bénéficiaire'}` : `Reçu de ${t.counterparty || 'Vantex'}`;
-      const dateFormatted = new Date(t.date).toLocaleString('fr-FR', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'});
+      const dateFormatted = new Date(t.date).toLocaleString('fr-FR');
       return `
         <div class="transaction ${isSent ? 'sent' : 'received'}">
           <div><strong>${icon} ${title}</strong><br><small>${dateFormatted}</small></div>
@@ -525,16 +447,13 @@
     const userSnap = await getDoc(userRef);
     if (userSnap.exists()) {
       userData = userSnap.data();
-      const displayName = userData.fullName || userData.displayName || userData.email?.split('@')[0] || 'Client';
+      const displayName = userData.fullName || userData.displayName || userData.email?.split('@')[0] || 'Utilisateur';
       userNameSpan.textContent = displayName;
       userInitialsSpan.textContent = displayName.slice(0,2).toUpperCase();
       if (userData.photoURL) {
         userPhotoImg.src = userData.photoURL;
         userPhotoImg.style.display = 'block';
-        userInitialsSpan.style.display = 'none';
-      } else {
-        userPhotoImg.style.display = 'none';
-        userInitialsSpan.style.display = 'flex';
+        userInitialsSpan.textContent = '';
       }
       return true;
     }
@@ -550,16 +469,18 @@
         const data = docSnap.data();
         soldeSpan.textContent = formatMoney(data.balance || 0, currencyCode);
         displayTransactions(data.transactions || [], currencyCode);
+        
         const unseenCount = data.unseenNotifications || 0;
         notifBadge.textContent = unseenCount;
-        notifBadge.style.display = unseenCount > 0 ? 'flex' : 'none';
+        notifBadge.style.display = unseenCount > 0 ? 'inline-block' : 'none';
+        
         const notifications = data.notifications || [];
-        notificationItemsUl.innerHTML = notifications.length ? notifications.map(n => `<li><i class="fas fa-circle" style="font-size:8px; color:#1976d2; margin-right:8px;"></i> ${n.message}</li>`).join('') : '<li style="text-align:center;">✨ Aucune notification</li>';
+        notificationItemsUl.innerHTML = notifications.length ? notifications.map(n => `<li>${n.message}</li>`).join('') : '<li>Aucune notification</li>';
       } else {
         await setDoc(walletRef, { 
           balance: 0, 
           transactions: [], 
-          notifications: [{ id: 1, message: 'Bienvenue sur Vantex ! Profitez de vos services.', read: false, date: new Date().toISOString() }], 
+          notifications: [{ id: 1, message: 'Bienvenue sur Vantex !', read: false, date: new Date().toISOString() }], 
           unseenNotifications: 1, 
           createdAt: new Date().toISOString() 
         });
@@ -571,14 +492,15 @@
   function displayVirtualCard() {
     const cardContainer = document.getElementById('cardContainer');
     const cardImageUrl = userData.virtualCardImage;
+    
     if (cardImageUrl && cardImageUrl.trim() !== '') {
-      cardContainer.innerHTML = `<img src="${cardImageUrl}" alt="Carte virtuelle Vantex" class="card-image" style="width:100%; max-width:360px; margin:0 auto; border-radius:20px;" />`;
+      cardContainer.innerHTML = `<img src="${cardImageUrl}" alt="Carte virtuelle" class="card-image" />`;
     } else {
       cardContainer.innerHTML = `
         <div class="no-card">
-          <i class="fas fa-credit-card" style="font-size: 52px; color:#b0c4de;"></i>
-          <p style="margin-top:12px;">Aucune carte virtuelle associée</p>
-          <small>Activez une carte depuis votre espace conseiller</small>
+          <i class="fas fa-credit-card"></i>
+          <p>Aucune carte virtuelle disponible</p>
+          <small>Contactez votre banque pour obtenir une carte</small>
         </div>
       `;
     }
@@ -588,15 +510,17 @@
     const currencyCode = userData.currency || 'MUR';
     const currencySymbol = getCurrencySymbol(currencyCode);
     const hasCard = userData.virtualCardImage && userData.virtualCardImage.trim() !== '';
+    
     document.getElementById('infoFullName').textContent = userData.fullName || userData.displayName || 'Non renseigné';
     document.getElementById('infoEmail').textContent = userData.email || 'Non renseigné';
-    document.getElementById('infoCountry').textContent = userData.country || 'France';
+    document.getElementById('infoCountry').textContent = userData.country || 'Non renseigné';
     document.getElementById('infoCurrency').textContent = currencyCode;
     document.getElementById('infoCurrencySymbol').textContent = currencySymbol;
     document.getElementById('infoPhone').textContent = userData.phone || 'Non renseigné';
-    document.getElementById('infoIban').textContent = userData.iban || 'FR76 1234 5678 9012 3456 7890 123';
-    document.getElementById('infoAccountType').textContent = userData.accountType || 'Compte Courant Premium';
-    document.getElementById('infoHasCard').innerHTML = hasCard ? '✅ Carte virtuelle active' : '❌ Aucune carte';
+    document.getElementById('infoIban').textContent = userData.iban || 'Non disponible';
+    document.getElementById('infoAccountType').textContent = userData.accountType || 'Compte courant';
+    document.getElementById('infoHasCard').textContent = hasCard ? '✅ Active' : '❌ Aucune carte';
+    
     displayVirtualCard();
   }
 
@@ -609,18 +533,19 @@
         await loadWallet(currentUserId);
         await updateUserInfoDisplay();
       }
+      
       photoUploadInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
-        if (file && file.size < 2 * 1024 * 1024) {
+        if (file) {
           const reader = new FileReader();
           reader.onload = async (event) => {
             await updateDoc(doc(db, 'users', currentUserId), { photoURL: event.target.result });
             userPhotoImg.src = event.target.result;
             userPhotoImg.style.display = 'block';
-            userInitialsSpan.style.display = 'none';
+            userInitialsSpan.textContent = '';
           };
           reader.readAsDataURL(file);
-        } else alert("Image trop volumineuse (max 2Mo)");
+        }
       });
     } else {
       window.location.href = 'index.html';
@@ -632,7 +557,6 @@
     await updateDoc(doc(db, 'wallets', userId), { unseenNotifications: 0 });
   }
 
-  // --- GESTION DES BOUTONS ET RESPONSIVE TOGGLE ---
   const portefeuilleBtn = document.getElementById("portefeuilleBtn");
   const virementBtn = document.getElementById("virementBtn");
   const virtualCardBtn = document.getElementById("virtualCardBtn");
@@ -651,25 +575,18 @@
     [portefeuilleBtn, virementBtn, virtualCardBtn, monCompteBtn].forEach(btn => btn.classList.remove("active"));
   }
 
-  function hideAllModalsAndSections() {
-    if(portefeuilleSection) portefeuilleSection.style.display = "none";
-    if(virtualCardModal) virtualCardModal.style.display = "none";
-    if(myModal) myModal.style.display = "none";
-  }
-
-  portefeuilleBtn.onclick = () => { deselectAll(); portefeuilleBtn.classList.add("active"); hideAllModalsAndSections(); portefeuilleSection.style.display = "block"; };
+  portefeuilleBtn.onclick = () => { deselectAll(); portefeuilleBtn.classList.add("active"); portefeuilleSection.style.display = "block"; virtualCardModal.style.display = "none"; myModal.style.display = "none"; };
   virementBtn.onclick = () => { window.location.href = "virement.html"; };
-  virtualCardBtn.onclick = () => { deselectAll(); virtualCardBtn.classList.add("active"); hideAllModalsAndSections(); displayVirtualCard(); virtualCardModal.style.display = "flex"; };
+  virtualCardBtn.onclick = () => { deselectAll(); virtualCardBtn.classList.add("active"); displayVirtualCard(); virtualCardModal.style.display = "flex"; portefeuilleSection.style.display = "none"; myModal.style.display = "none"; };
   closeVirtualCardBtn.onclick = () => { virtualCardModal.style.display = "none"; deselectAll(); portefeuilleBtn.classList.add("active"); portefeuilleSection.style.display = "block"; };
-  monCompteBtn.onclick = () => { deselectAll(); monCompteBtn.classList.add("active"); hideAllModalsAndSections(); updateUserInfoDisplay(); myModal.style.display = "flex"; };
+  monCompteBtn.onclick = () => { deselectAll(); monCompteBtn.classList.add("active"); updateUserInfoDisplay(); myModal.style.display = "flex"; portefeuilleSection.style.display = "none"; virtualCardModal.style.display = "none"; };
   btnCloseMyAccount.onclick = () => { myModal.style.display = "none"; deselectAll(); portefeuilleBtn.classList.add("active"); portefeuilleSection.style.display = "block"; };
-  btnSeDeconnecter.onclick = async () => { await signOut(auth); alert("Déconnexion réussie"); window.location.href = "register.html"; };
+  btnSeDeconnecter.onclick = async () => { await signOut(auth); alert("Déconnecté"); window.location.href = "register.html"; };
   btnVoirIban.onclick = () => { monCompteBtn.click(); };
   btnEffectuerVirement.onclick = () => { window.location.href = "virement.html"; };
   btnVoirCarteVirtuelle.onclick = () => { virtualCardBtn.click(); };
 
-  notificationBtn.addEventListener("click", async (e) => {
-    e.stopPropagation();
+  notificationBtn.addEventListener("click", async () => {
     const isVisible = notificationListDiv.style.display === "block";
     if (isVisible) {
       notificationListDiv.style.display = "none";
@@ -683,13 +600,6 @@
     if(!notificationBtn.contains(e.target) && !notificationListDiv.contains(e.target))
       notificationListDiv.style.display = "none";
   });
-  
-  // userIcon pour upload photo
-  const userIconDiv = document.getElementById("userIcon");
-  userIconDiv.addEventListener("click", () => { photoUploadInput.click(); });
-  
-  // initialisation affichage
-  setTimeout(() => { portefeuilleBtn.click(); }, 100);
 </script>
 </body>
 </html>
