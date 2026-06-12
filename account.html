@@ -6,43 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/> 
 <title>Portefeuille - Vantex</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<!-- Firebase SDKs -->
-<script type="module">
-  // Import Firebase functions
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  
-  // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyD7ePIu7x4KbojvUD47DWSKbuqH5nzE5uc",
-    authDomain: "laafi-bf.firebaseapp.com",
-    projectId: "laafi-bf",
-    storageBucket: "laafi-bf.firebasestorage.app",
-    messagingSenderId: "837012050847",
-    appId: "1:837012050847:web:7af3904c055f74c996e3aa",
-    measurementId: "G-4TZC45GKE4"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth(app);
-
-  // Make accessible globally for inline scripts
-  window.db = db;
-  window.auth = auth;
-  window.doc = doc;
-  window.getDoc = getDoc;
-  window.setDoc = setDoc;
-  window.updateDoc = updateDoc;
-  window.arrayUnion = arrayUnion;
-  window.onSnapshot = onSnapshot;
-  window.onAuthStateChanged = onAuthStateChanged;
-  window.signOut = signOut;
-</script>
 <style>
-    /* PAGE SCROLLABLE */
     html, body {
         overflow-y: auto;
         height: 100%;
@@ -65,7 +29,6 @@
         color: #222;
     }
 
-    /* ========== HEADER ========== */
     #topHeader {
       width: 100%;
       max-width: 400px;
@@ -77,8 +40,6 @@
       background-color: #fff;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgb(0 0 0 / 0.07);
-      box-sizing: border-box;
-      flex-shrink: 0;
       position: sticky;
       top: 0;
       z-index: 200;
@@ -87,7 +48,6 @@
     .logo-container img {
       height: 60px;
       width: auto;
-      user-select: none;
     }
 
     .header-right {
@@ -107,27 +67,18 @@
       line-height: 40px;
       text-align: center;
       cursor: pointer;
-      user-select: none;
       position: relative;
       overflow: hidden;
-      flex-shrink: 0;
     }
 
     .user-icon img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 50%;
-    }
-
-    .user-icon:focus {
-      outline: 2px solid #0d47a1;
-      outline-offset: 2px;
     }
 
     .notif-wrapper {
       position: relative;
-      flex-shrink: 0;
     }
 
     #notificationBtn {
@@ -136,14 +87,6 @@
       cursor: pointer;
       color: #1976d2;
       font-size: 22px;
-      position: relative;
-      padding: 0;
-      user-select: none;
-    }
-
-    #notificationBtn:focus {
-      outline: 2px solid #0d47a1;
-      outline-offset: 2px;
     }
 
     .notif-badge {
@@ -156,9 +99,6 @@
       font-weight: 700;
       padding: 2px 5px;
       border-radius: 12px;
-      min-width: 18px;
-      text-align: center;
-      line-height: 1;
     }
 
     .notification-list {
@@ -172,26 +112,8 @@
       max-height: 250px;
       overflow-y: auto;
       padding: 10px;
-      font-size: 14px;
-      color: #222;
-      user-select: none;
       z-index: 250;
       display: none;
-    }
-
-    .notification-list ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .notification-list li {
-      padding: 6px 8px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .notification-list li:last-child {
-      border-bottom: none;
     }
 
     .welcome-container {
@@ -199,12 +121,10 @@
         max-width: 400px;
         width: 100%;
         border-radius: 12px;
-        padding: 15px 20px 15px;
+        padding: 15px 20px;
         box-shadow: 0 4px 12px rgb(0 0 0 / 0.07);
         margin-bottom: 15px;
         text-align: center;
-        color: #2e2e2e;
-        flex-shrink: 0;
     }
     .welcome-container h1 {
         font-weight: 700;
@@ -212,48 +132,20 @@
         margin: 0 0 6px 0;
         color: #1976d2;
     }
-    .welcome-container p {
-        font-size: 14px;
-        margin: 0;
-        font-style: normal;
-        color: #555;
-    }
+
     #portefeuilleSection {
         background-color: #fff;
         max-width: 400px;
         width: 100%;
         border-radius: 12px;
         box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
-        padding: 20px 20px 20px;
-        overflow: hidden;
-        flex-shrink: 0;
-    }
-    #portefeuilleSection .solde-label {
-        font-weight: 600;
-        font-size: 14px;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        color: #333333;
-        margin-bottom: 4px;
-    }
-    #portefeuilleSection .solde-label .check-icon {
-        color: #1976d2;
-        font-size: 18px;
+        padding: 20px;
     }
     #portefeuilleSection .solde-montant {
         font-size: 30px;
         font-weight: 700;
         color: #000;
         margin: 0 0 12px 0;
-        letter-spacing: 0.04em;
-    }
-    #portefeuilleSection .description {
-        font-style: normal;
-        font-weight: 400;
-        font-size: 13px;
-        color: #666666;
-        margin-bottom: 18px;
     }
     .actions {
         display: flex;
@@ -274,254 +166,168 @@
         align-items: center;
         gap: 7px;
         cursor: pointer;
-        box-shadow: 0 3px 6px rgb(25 118 210 / 0.15);
-    }
-    .actions button:hover, .actions button:focus {
-        background-color: #e3f2fd;
-        outline: none;
-        color: #0d47a1;
-        box-shadow: 0 5px 12px rgb(13 71 161 / 0.3);
-    }
-    .actions button i {
-        font-size: 16px;
-    }
-    .transaction-history > h4 {
-        font-weight: 700;
-        font-size: 16px;
-        margin-bottom: 15px;
-        color: #333;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        white-space: nowrap;
-    }
-    .transaction-history > h4 i {
-        color: #1976d2;
-        font-size: 20px;
-    }
-    .transaction-history {
-        max-height: 190px;
-        overflow: hidden;
     }
     .transaction {
         border-radius: 10px;
         background-color: #f9fafb;
         padding: 12px 16px;
         margin-bottom: 14px;
-        box-shadow: 0 1px 4px rgb(0 0 0 / 0.05);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        user-select: none;
     }
-    .transaction .details {
-        flex: 1;
-        min-width: 0;
-    }
-    .transaction .details .desc {
-        font-weight: 600;
-        font-size: 14px;
-        color: #222222;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin-bottom: 4px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-    .transaction .details .desc i {
-        font-size: 16px;
-    }
-    .transaction .details .date {
-        font-size: 12px;
-        color: #777777;
-    }
-    .transaction .amount {
-        font-weight: 700;
-        font-size: 14px;
-        min-width: 110px;
-        text-align: right;
-        white-space: nowrap;
-    }
-    .transaction.sent {
-        background-color: #ffeded;
-        border: 1px solid #f5a1a1;
-    }
-    .transaction.sent .desc i {
-        color: #d32f2f;
-    }
-    .transaction.sent .amount {
-        color: #d32f2f;
-    }
-    .transaction.received {
-        background-color: #e6f4ea;
-        border: 1px solid #a3d4a5;
-    }
-    .transaction.received .desc i {
-        color: #388e3c;
-    }
-    .transaction.received .amount {
-        color: #388e3c;
-    }
+    .transaction.sent { background-color: #ffeded; border: 1px solid #f5a1a1; }
+    .transaction.received { background-color: #e6f4ea; border: 1px solid #a3d4a5; }
+    .transaction.sent .amount { color: #d32f2f; }
+    .transaction.received .amount { color: #388e3c; }
+    .transaction .amount { font-weight: 700; }
+
     .footer-icons {
         display: flex;
         justify-content: space-around;
-        align-items: center;
         position: fixed;
         bottom: 0;
         width: 100%;
-        max-width: 100vw;
         background-color: #fff;
         box-shadow: 0 -3px 10px rgb(0 0 0 / 0.12);
         padding: 10px 5px;
         z-index: 10;
-        flex-shrink: 0;
     }
     .footer-icons div {
         text-align: center;
         flex-grow: 1;
         cursor: pointer;
-        border-radius: 8px;
         padding: 5px 0;
         color: #1976d2;
-        transition: background-color 0.3s ease;
-        user-select: none;
     }
     .footer-icons div.active {
         background-color: #1976d2;
         color: white;
-        font-weight: 700;
-        box-shadow: 0 0 10px rgb(25 118 210 / 0.6);
-    }
-    .footer-icons div:hover:not(.active) {
-        background-color: #e3f2fd;
-    }
-    .footer-icons i {
-        font-size: 24px;
-        pointer-events: none;
-    }
-    .footer-icons span {
-        display: block;
-        font-size: 13px;
-        margin-top: 5px;
-        user-select: none;
     }
     .modal {
-        overflow: hidden !important;
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 100;
+        justify-content: center;
+        align-items: center;
     }
-    .loading {
-        opacity: 0.6;
-        pointer-events: none;
+    .modal-content {
+        max-width: 400px;
+        background: #fff;
+        border-radius: 20px;
+        padding: 20px;
+        text-align: center;
+    }
+    .info-card {
+        background: #f5f5f5;
+        padding: 12px;
+        border-radius: 10px;
+        margin: 10px 0;
+        text-align: left;
+    }
+    .info-card p { margin: 8px 0; }
+    .no-data { color: #999; font-style: italic; }
+    .card-image {
+        max-width: 100%;
+        border-radius: 12px;
+        margin: 10px 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .no-card {
+        text-align: center;
+        padding: 40px 20px;
+        color: #999;
+    }
+    .no-card i {
+        font-size: 48px;
+        margin-bottom: 15px;
+        color: #ccc;
     }
 </style>
 </head>
 <body>
 
-<!-- Champ email caché pour référence -->
-<input type="hidden" id="email" value="lpgr31@gmail.com" />
-
-<header id="topHeader" role="banner" aria-label="En-tête du site">
+<header id="topHeader">
   <div class="logo-container">
-    <img src="https://raw.githubusercontent.com/Walyy578/ONLINE-BANKING/main/Design%20sans%20titre%20(2).png" alt="Logo BDE" />
+    <img src="https://raw.githubusercontent.com/Walyy578/ONLINE-BANKING/main/Design%20sans%20titre%20(2).png" alt="Logo" />
   </div>
   <div class="header-right">
-    <div id="notification-container" class="notif-wrapper" tabindex="0" aria-label="Notifications" role="region" aria-live="polite">
-      <button id="notificationBtn" aria-haspopup="true" aria-expanded="false" aria-controls="notificationList" aria-label="Afficher les notifications">
-        <i class="fas fa-bell"></i>
-        <span id="notif-badge" class="notif-badge" aria-hidden="true" style="display:none;">0</span>
-      </button>
-      <div id="notificationList" class="notification-list" role="region" aria-label="Liste des notifications" hidden>
-        <ul id="notificationItems">
-          <li>Chargement...</li>
-        </ul>
-      </div>
+    <div class="notif-wrapper">
+      <button id="notificationBtn"><i class="fas fa-bell"></i><span id="notif-badge" class="notif-badge" style="display:none;">0</span></button>
+      <div id="notificationList" class="notification-list"><ul id="notificationItems"></ul></div>
     </div>
-    <div id="userIcon" class="user-icon" tabindex="0" role="button" aria-label="Profil utilisateur">
-      <span id="userInitials"></span>
-      <img id="userPhoto" alt="Photo de profil" style="display:none;"/>
-      <input type="file" id="photoUpload" accept="image/*" style="display:none" aria-label="Chargement photo"/>
-    </div>
+    <div id="userIcon" class="user-icon"><span id="userInitials"></span><img id="userPhoto" style="display:none;"/><input type="file" id="photoUpload" style="display:none"/></div>
   </div>
 </header>
 
-<div class="welcome-container" role="region" aria-label="Message de bienvenue" tabindex="0">
-    <h1>Bienvenue, <span id="user-name">Utilisateur</span> !</h1>
-    <p>Votre inscription a été réussie. Félicitations !</p>
+<div class="welcome-container">
+    <h1>Bienvenue, <span id="user-name">...</span> !</h1>
+    <p>Gérez votre compte en toute simplicité</p>
 </div>
 
-<div id="portefeuilleSection" aria-label="Portefeuille et historique des transactions" role="main" tabindex="0">
-    <p class="solde-label">
-        Solde disponible
-        <i class="fas fa-circle-check check-icon" aria-hidden="true" title="Solde vérifié"></i>
-    </p>
-    <p class="solde-montant" aria-live="polite" aria-atomic="true" id="soldeMontant">0,00 Rs</p>
-    <p class="description">Compte pour tous vos besoins</p>
-    <div class="actions" role="group" aria-label="Actions du portefeuille">
-        <button id="btnVoirIban" aria-label="Voir mon IBAN">
-            <i class="fas fa-file-invoice"></i> Voir mon IBAN
-        </button>
-        <button id="btnEffectuerVirement" aria-label="Effectuer un virement sortant">
-            <i class="fas fa-arrow-up-right-from-square"></i> Effectuer un virement
-        </button>
-        <button id="btnVoirCarteVirtuelle" aria-label="Voir ma carte virtuelle">
-            <i class="fas fa-credit-card"></i> Voir ma carte virtuelle
-        </button>
+<div id="portefeuilleSection">
+    <p class="solde-montant" id="soldeMontant">0,00</p>
+    <div class="actions">
+        <button id="btnVoirIban"><i class="fas fa-file-invoice"></i> Mon IBAN</button>
+        <button id="btnEffectuerVirement"><i class="fas fa-arrow-up-right-from-square"></i> Virement</button>
+        <button id="btnVoirCarteVirtuelle"><i class="fas fa-credit-card"></i> Ma carte</button>
     </div>
-    <div class="transaction-history" aria-live="polite" aria-label="Historique des transactions">
-        <h4><i class="fas fa-clock-rotate-left" aria-hidden="true"></i> Historique des transactions</h4>
-        <div id="transactionsList"></div>
-    </div>
+    <h4><i class="fas fa-clock-rotate-left"></i> Historique</h4>
+    <div id="transactionsList"></div>
 </div>
 
-<nav class="footer-icons" role="navigation" aria-label="Menu principal">
-    <div id="portefeuilleBtn" class="active" tabindex="0" role="button" aria-pressed="true" aria-label="Portefeuille">
-        <i class="fas fa-wallet" aria-hidden="true"></i>
-        <span>Portefeuille</span>
-    </div>
-    <div id="virementBtn" tabindex="0" role="button" aria-label="Virement">
-        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
-        <span>Virement</span>
-    </div>
-    <div id="virtualCardBtn" tabindex="0" role="button" aria-label="Carte virtuelle">
-        <i class="fas fa-credit-card" aria-hidden="true"></i>
-        <span>Carte virtuelle</span>
-    </div>
-    <div id="monCompteBtn" tabindex="0" role="button" aria-label="Mon compte">
-        <i class="fas fa-user-circle" aria-hidden="true"></i>
-        <span>Mon compte</span>
-    </div>
+<nav class="footer-icons">
+    <div id="portefeuilleBtn" class="active"><i class="fas fa-wallet"></i><span>Portefeuille</span></div>
+    <div id="virementBtn"><i class="fas fa-exchange-alt"></i><span>Virement</span></div>
+    <div id="virtualCardBtn"><i class="fas fa-credit-card"></i><span>Carte</span></div>
+    <div id="monCompteBtn"><i class="fas fa-user-circle"></i><span>Mon compte</span></div>
 </nav>
 
-<!-- Modale Carte Virtuelle -->
-<div id="virtualCardModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="virtualCardTitle" style="display:none; justify-content:center; align-items:center; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:100;">
-    <div class="modal-content" style="max-width:500px; max-height:80vh; overflow-y:auto; background:#fff; border-radius:20px; padding:20px; margin:auto; text-align:center; box-shadow:0 8px 16px rgb(0 0 0 / 0.3);">
-        <h3 id="virtualCardTitle" style="color:#1976d2; margin-bottom:20px;">Carte virtuelle</h3>
-        <img src="https://raw.githubusercontent.com/Walyy578/ONLINE-BANKING/main/InShot_20250608_193242344.jpg" alt="Carte virtuelle" style="width:100%; max-width: 300px; border-radius: 10px; margin-bottom:10px;">
-        <p style="color:#b71c1c; font-weight:600; background:#fff9c4; padding:10px; border-radius: 5px;">Pour des raisons de sécurité, les 4 derniers chiffres de votre carte ont été masqués.</p>
-        <button id="closeVirtualCardBtn" aria-label="Fermer la carte virtuelle" style="background:#d32f2f; border:none; padding:10px 25px; color:#fff; border-radius:8px; cursor:pointer; font-size:16px;">Fermer</button>
+<!-- MODALE CARTE VIRTUELLE -->
+<div id="virtualCardModal" class="modal">
+    <div class="modal-content">
+        <h3 style="color:#1976d2;">Carte virtuelle</h3>
+        <div id="cardContainer">
+            <!-- Le contenu sera chargé dynamiquement -->
+            <div class="no-card" id="noCardMessage">
+                <i class="fas fa-credit-card"></i>
+                <p>Aucune carte virtuelle disponible</p>
+                <small>Contactez votre banque pour obtenir une carte</small>
+            </div>
+        </div>
+        <button id="closeVirtualCardBtn" style="background:#d32f2f; color:#fff; border:none; padding:10px 25px; border-radius:8px; margin-top:15px;">Fermer</button>
     </div>
 </div>
 
-<!-- Modale Mon Compte -->
-<div id="myModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="monCompteTitle" style="display:none; justify-content:center; align-items:center; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:100;">
-    <div class="modal-content" style="max-width:480px; max-height:80vh; overflow-y:auto; background:#fff; border-radius:20px; padding:20px; margin:auto; text-align:left; box-shadow:0 8px 16px rgb(0 0 0 / 0.3);">
-        <h3 id="monCompteTitle" style="color:#1976d2; margin-bottom:20px; text-align:center;">Vos informations de compte :</h3>
-        <p><strong>Type de Compte :</strong> Compte courant</p>
-        <p><strong>Titulaire du Compte :</strong> RAMGOULAM LOUIS PAUL GERARD</p>
-        <p><strong>Pays de résidence :</strong> Maurice</p>
-        <p><strong>Adresse de résidence :</strong> ILE MAURICE 230</p>
-        <p><strong>Adresse e-mail :</strong> <span id="profileEmail">lpgr31@gmail.com</span></p>
-        <p><strong>Numéro de téléphone :</strong> +23057895689</p>
-        <div style="display:flex; justify-content: space-between; margin-top: 25px;">
-            <button id="btnSeDeconnecter" style="background:#d32f2f; color:#fff; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; flex:1; margin-right:10px;">Se déconnecter</button>
-            <button id="btnCloseMyAccount" style="background:#1976d2; color:#fff; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; flex:1;">Retour</button>
+<!-- MODALE MON COMPTE -->
+<div id="myModal" class="modal">
+    <div class="modal-content" style="text-align:left;">
+        <h3 style="color:#1976d2; text-align:center;">Mes informations</h3>
+        <div id="userInfoContainer">
+            <div class="info-card">
+                <p><strong>👤 Nom complet :</strong> <span id="infoFullName">---</span></p>
+                <p><strong>📧 Email :</strong> <span id="infoEmail">---</span></p>
+                <p><strong>📍 Pays :</strong> <span id="infoCountry">---</span></p>
+                <p><strong>💰 Devise :</strong> <span id="infoCurrency">---</span> (<span id="infoCurrencySymbol">---</span>)</p>
+                <p><strong>📞 Téléphone :</strong> <span id="infoPhone">Non renseigné</span></p>
+                <p><strong>🏦 IBAN :</strong> <span id="infoIban">---</span></p>
+                <p><strong>📋 Type compte :</strong> <span id="infoAccountType">Compte courant</span></p>
+                <p><strong>💳 Carte :</strong> <span id="infoHasCard">---</span></p>
+            </div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button id="btnSeDeconnecter" style="background:#d32f2f; color:#fff; border:none; padding:10px; border-radius:8px; flex:1;">Déconnexion</button>
+            <button id="btnCloseMyAccount" style="background:#1976d2; color:#fff; border:none; padding:10px; border-radius:8px; flex:1;">Fermer</button>
         </div>
     </div>
 </div>
 
 <script type="module">
-  // Import Firebase (already imported in module above, but using global refs)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -533,218 +339,200 @@
     storageBucket: "laafi-bf.firebasestorage.app",
     messagingSenderId: "837012050847",
     appId: "1:837012050847:web:7af3904c055f74c996e3aa",
-    measurementId: "G-4TZC45GKE4"
   };
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
 
+  // Symboles des devises
+  const currencySymbols = {
+    'EUR': '€', 'USD': '$', 'GBP': '£', 'XOF': 'CFA', 'XAF': 'CFA',
+    'MUR': 'Rs', 'CAD': 'C$', 'CHF': 'CHF', 'JPY': '¥', 'CNY': '¥',
+    'INR': '₹', 'AUD': 'A$', 'DZD': 'DA', 'MAD': 'DH', 'TND': 'DT',
+    'NGN': '₦', 'ZAR': 'R', 'EGP': 'E£', 'KES': 'KSh', 'GHS': '₵'
+  };
+
   // DOM Elements
   const soldeSpan = document.getElementById('soldeMontant');
   const userNameSpan = document.getElementById('user-name');
   const transactionsDiv = document.getElementById('transactionsList');
-  const profileEmailSpan = document.getElementById('profileEmail');
   const userInitialsSpan = document.getElementById('userInitials');
   const userPhotoImg = document.getElementById('userPhoto');
   const photoUploadInput = document.getElementById('photoUpload');
-  const userIconDiv = document.getElementById('userIcon');
   const notificationListDiv = document.getElementById('notificationList');
   const notificationBtn = document.getElementById('notificationBtn');
   const notifBadge = document.getElementById('notif-badge');
   const notificationItemsUl = document.getElementById('notificationItems');
 
-  // User data reference
   let currentUser = null;
   let currentUserId = null;
   let unsubscribeWallet = null;
+  let userData = {};
 
-  // Format number to Rs
-  function formatMoney(amount) {
-    return amount.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' Rs';
+  function getCurrencySymbol(currencyCode) {
+    return currencySymbols[currencyCode] || currencyCode || 'Rs';
   }
 
-  // Display transactions
-  function displayTransactions(transactions) {
+  function formatMoney(amount, currencyCode) {
+    const symbol = getCurrencySymbol(currencyCode);
+    return amount.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + symbol;
+  }
+
+  function displayTransactions(transactions, currencyCode) {
     if (!transactionsDiv) return;
     if (!transactions || transactions.length === 0) {
-      transactionsDiv.innerHTML = '<p style="text-align:center;color:#888;">Aucune transaction pour le moment</p>';
+      transactionsDiv.innerHTML = '<p style="text-align:center;color:#888;">Aucune transaction</p>';
       return;
     }
-    // Sort by date descending (most recent first)
+    const symbol = getCurrencySymbol(currencyCode);
     const sorted = [...transactions].sort((a,b) => new Date(b.date) - new Date(a.date));
     transactionsDiv.innerHTML = sorted.map(t => {
       const isSent = t.type === 'sent';
-      const amountClass = isSent ? 'sent' : 'received';
       const amountPrefix = isSent ? '- ' : '+ ';
-      const icon = isSent ? '<i class="fas fa-arrow-up"></i>' : '<i class="fas fa-arrow-down"></i>';
-      const title = isSent ? `Virement envoyé à ${t.counterparty || '...'}` : `Virement reçu de ${t.counterparty || 'Vantex'}`;
+      const icon = isSent ? '📤' : '📥';
+      const title = isSent ? `Virement à ${t.counterparty || 'bénéficiaire'}` : `Reçu de ${t.counterparty || 'Vantex'}`;
       const dateFormatted = new Date(t.date).toLocaleString('fr-FR');
       return `
-        <article class="transaction ${amountClass}" tabindex="0" role="group">
-          <div class="details">
-            <div class="desc">${icon} ${title}</div>
-            <div class="date">${dateFormatted}</div>
-          </div>
-          <div class="amount">${amountPrefix}${formatMoney(t.amount)}</div>
-        </article>
+        <div class="transaction ${isSent ? 'sent' : 'received'}">
+          <div><strong>${icon} ${title}</strong><br><small>${dateFormatted}</small></div>
+          <div class="amount">${amountPrefix}${t.amount.toLocaleString('fr-FR')} ${symbol}</div>
+        </div>
       `;
     }).join('');
   }
 
-  // Load user wallet from Firestore
-  async function loadUserWallet(userId) {
-    if (unsubscribeWallet) {
-      unsubscribeWallet();
+  async function loadUserData(userId) {
+    const userRef = doc(db, 'users', userId);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      userData = userSnap.data();
+      const displayName = userData.fullName || userData.displayName || userData.email?.split('@')[0] || 'Utilisateur';
+      userNameSpan.textContent = displayName;
+      userInitialsSpan.textContent = displayName.slice(0,2).toUpperCase();
+      if (userData.photoURL) {
+        userPhotoImg.src = userData.photoURL;
+        userPhotoImg.style.display = 'block';
+        userInitialsSpan.textContent = '';
+      }
+      return true;
     }
+    return false;
+  }
+
+  async function loadWallet(userId) {
+    if (unsubscribeWallet) unsubscribeWallet();
     const walletRef = doc(db, 'wallets', userId);
-    // Real-time listener
-    unsubscribeWallet = onSnapshot(walletRef, (docSnap) => {
+    unsubscribeWallet = onSnapshot(walletRef, async (docSnap) => {
+      const currencyCode = userData.currency || 'MUR';
       if (docSnap.exists()) {
         const data = docSnap.data();
-        const balance = data.balance || 0;
-        soldeSpan.textContent = formatMoney(balance);
-        const transactions = data.transactions || [];
-        displayTransactions(transactions);
+        soldeSpan.textContent = formatMoney(data.balance || 0, currencyCode);
+        displayTransactions(data.transactions || [], currencyCode);
         
-        // Update notifications badge based on unseen count
         const unseenCount = data.unseenNotifications || 0;
-        if (unseenCount > 0) {
-          notifBadge.textContent = unseenCount;
-          notifBadge.style.display = 'inline-block';
-        } else {
-          notifBadge.style.display = 'none';
-        }
+        notifBadge.textContent = unseenCount;
+        notifBadge.style.display = unseenCount > 0 ? 'inline-block' : 'none';
         
-        // Load notifications list
         const notifications = data.notifications || [];
-        if (notifications.length === 0) {
-          notificationItemsUl.innerHTML = '<li>Aucune notification</li>';
-        } else {
-          notificationItemsUl.innerHTML = notifications.map(n => `<li>${n.message}</li>`).join('');
-        }
+        notificationItemsUl.innerHTML = notifications.length ? notifications.map(n => `<li>${n.message}</li>`).join('') : '<li>Aucune notification</li>';
       } else {
-        // Create initial wallet
-        const initialWallet = {
-          balance: 250000,
-          transactions: [
-            {
-              id: Date.now(),
-              type: 'received',
-              amount: 200000,
-              counterparty: 'Vantex',
-              date: new Date(2025, 2, 16, 11, 8).toISOString(),
-              description: 'Dépôt initial'
-            }
-          ],
+        await setDoc(walletRef, { 
+          balance: 0, 
+          transactions: [], 
           notifications: [
-            { id: 1, message: 'Bienvenue sur votre tableau de bord !', read: false, date: new Date().toISOString() },
-            { id: 2, message: 'Votre solde a été mis à jour.', read: false, date: new Date().toISOString() },
-            { id: 3, message: 'Nouvelle offre disponible.', read: false, date: new Date().toISOString() }
-          ],
-          unseenNotifications: 3
-        };
-        setDoc(walletRef, initialWallet).then(() => {
-          soldeSpan.textContent = formatMoney(initialWallet.balance);
-          displayTransactions(initialWallet.transactions);
-          notificationItemsUl.innerHTML = initialWallet.notifications.map(n => `<li>${n.message}</li>`).join('');
-          notifBadge.textContent = '3';
-          notifBadge.style.display = 'inline-block';
+            { id: 1, message: 'Bienvenue sur Vantex !', read: false, date: new Date().toISOString() }
+          ], 
+          unseenNotifications: 1, 
+          createdAt: new Date().toISOString() 
         });
+        soldeSpan.textContent = formatMoney(0, currencyCode);
       }
-    }, (error) => {
-      console.error("Erreur Firestore:", error);
     });
   }
 
-  // Mark notifications as seen when opening panel
+  // Afficher la carte virtuelle (image depuis Firestore)
+  function displayVirtualCard() {
+    const cardContainer = document.getElementById('cardContainer');
+    const cardImageUrl = userData.virtualCardImage; // URL de l'image dans Firestore
+    
+    if (cardImageUrl && cardImageUrl.trim() !== '') {
+      // Afficher la carte avec l'image
+      cardContainer.innerHTML = `
+        <div style="text-align:center;">
+          <img src="${cardImageUrl}" alt="Carte virtuelle" class="card-image" style="max-width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" />
+          <p style="margin-top:10px; color:#666; font-size:12px;">Carte virtuelle - Utilisation sécurisée</p>
+        </div>
+      `;
+    } else {
+      // Pas de carte - afficher message
+      cardContainer.innerHTML = `
+        <div class="no-card">
+          <i class="fas fa-credit-card"></i>
+          <p>Aucune carte virtuelle disponible</p>
+          <small>Contactez votre banque pour obtenir une carte</small>
+        </div>
+      `;
+    }
+  }
+
+  async function updateUserInfoDisplay() {
+    const currencyCode = userData.currency || 'MUR';
+    const currencySymbol = getCurrencySymbol(currencyCode);
+    const hasCard = userData.virtualCardImage && userData.virtualCardImage.trim() !== '';
+    
+    document.getElementById('infoFullName').textContent = userData.fullName || userData.displayName || 'Non renseigné';
+    document.getElementById('infoEmail').textContent = userData.email || 'Non renseigné';
+    document.getElementById('infoCountry').textContent = userData.country || 'Non renseigné';
+    document.getElementById('infoCurrency').textContent = currencyCode;
+    document.getElementById('infoCurrencySymbol').textContent = currencySymbol;
+    document.getElementById('infoPhone').textContent = userData.phone || 'Non renseigné';
+    document.getElementById('infoIban').textContent = userData.iban || 'Non disponible';
+    document.getElementById('infoAccountType').textContent = userData.accountType || 'Compte courant';
+    document.getElementById('infoHasCard').textContent = hasCard ? '✅ Active' : '❌ Aucune carte';
+    
+    // Mettre à jour l'affichage de la carte
+    displayVirtualCard();
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUser = user;
+      currentUserId = user.uid;
+      const loaded = await loadUserData(currentUserId);
+      if (loaded) {
+        await loadWallet(currentUserId);
+        await updateUserInfoDisplay();
+      }
+      
+      photoUploadInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = async (event) => {
+            await updateDoc(doc(db, 'users', currentUserId), { photoURL: event.target.result });
+            userPhotoImg.src = event.target.result;
+            userPhotoImg.style.display = 'block';
+            userInitialsSpan.textContent = '';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    } else {
+      window.location.href = 'register.html';
+    }
+  });
+
   async function markNotificationsAsSeen(userId) {
     if (!userId) return;
     const walletRef = doc(db, 'wallets', userId);
     const docSnap = await getDoc(walletRef);
     if (docSnap.exists()) {
-      await updateDoc(walletRef, {
-        unseenNotifications: 0
-      });
+      await updateDoc(walletRef, { unseenNotifications: 0 });
     }
   }
 
-  // Load user profile from Firestore
-  async function loadUserProfile(userId, email) {
-    const userRef = doc(db, 'users', userId);
-    const docSnap = await getDoc(userRef);
-    const displayName = email.split('@')[0] || 'Utilisateur';
-    const initials = displayName.slice(0, 2).toUpperCase();
-    
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      userNameSpan.textContent = data.displayName || displayName;
-      userInitialsSpan.textContent = data.photoURL ? '' : (data.displayName ? data.displayName.slice(0,2).toUpperCase() : initials);
-      if (data.photoURL) {
-        userPhotoImg.src = data.photoURL;
-        userPhotoImg.style.display = 'block';
-        userInitialsSpan.textContent = '';
-      }
-      if (profileEmailSpan) profileEmailSpan.textContent = data.email || email;
-    } else {
-      // Create user profile
-      await setDoc(userRef, {
-        email: email,
-        displayName: displayName,
-        phone: '+23057895689',
-        createdAt: new Date().toISOString()
-      });
-      userNameSpan.textContent = displayName;
-      userInitialsSpan.textContent = initials;
-      if (profileEmailSpan) profileEmailSpan.textContent = email;
-    }
-  }
-
-  // Handle photo upload to localStorage (demo - would need Firebase Storage)
-  function setupPhotoUpload(userId) {
-    photoUploadInput.addEventListener('change', async (e) => {
-      const file = e.target.files[0];
-      if (file && userId) {
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-          const photoData = event.target.result;
-          // Store in Firestore as base64 (for demo only - use Storage in production)
-          const userRef = doc(db, 'users', userId);
-          await updateDoc(userRef, { photoURL: photoData });
-          userPhotoImg.src = photoData;
-          userPhotoImg.style.display = 'block';
-          userInitialsSpan.textContent = '';
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  }
-
-  // Initialize authentication state
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      currentUser = user;
-      currentUserId = user.uid;
-      const email = user.email || document.getElementById('email').value;
-      await loadUserProfile(currentUserId, email);
-      await loadUserWallet(currentUserId);
-      setupPhotoUpload(currentUserId);
-    } else {
-      // For demo purposes, create a mock anonymous session using email from hidden field
-      const mockEmail = document.getElementById('email').value;
-      // Since Firebase requires auth, we'll use a deterministic UID based on email
-      // In real app, you'd have proper login. For demo, we simulate a logged-in user
-      // by creating a custom user reference. But Firebase Auth requires actual auth.
-      // To make it work without login, we'll create a pseudo-user ID from email
-      const mockUserId = btoa(mockEmail).replace(/[^a-zA-Z0-9]/g, '');
-      currentUserId = mockUserId;
-      await loadUserProfile(mockUserId, mockEmail);
-      await loadUserWallet(mockUserId);
-      setupPhotoUpload(mockUserId);
-    }
-  });
-
-  // UI Event Listeners
+  // UI Events
   const portefeuilleBtn = document.getElementById("portefeuilleBtn");
   const virementBtn = document.getElementById("virementBtn");
   const virtualCardBtn = document.getElementById("virtualCardBtn");
@@ -763,119 +551,30 @@
     [portefeuilleBtn, virementBtn, virtualCardBtn, monCompteBtn].forEach(btn => btn.classList.remove("active"));
   }
 
-  portefeuilleBtn.onclick = () => {
-    deselectAll();
-    portefeuilleBtn.classList.add("active");
-    portefeuilleSection.style.display = "block";
-    virtualCardModal.style.display = "none";
-    myModal.style.display = "none";
-  };
+  portefeuilleBtn.onclick = () => { deselectAll(); portefeuilleBtn.classList.add("active"); portefeuilleSection.style.display = "block"; virtualCardModal.style.display = "none"; myModal.style.display = "none"; };
+  virementBtn.onclick = () => { window.location.href = "virement.html"; };
+  virtualCardBtn.onclick = () => { deselectAll(); virtualCardBtn.classList.add("active"); displayVirtualCard(); virtualCardModal.style.display = "flex"; portefeuilleSection.style.display = "none"; myModal.style.display = "none"; };
+  closeVirtualCardBtn.onclick = () => { virtualCardModal.style.display = "none"; deselectAll(); portefeuilleBtn.classList.add("active"); portefeuilleSection.style.display = "block"; };
+  monCompteBtn.onclick = () => { deselectAll(); monCompteBtn.classList.add("active"); updateUserInfoDisplay(); myModal.style.display = "flex"; portefeuilleSection.style.display = "none"; virtualCardModal.style.display = "none"; };
+  btnCloseMyAccount.onclick = () => { myModal.style.display = "none"; deselectAll(); portefeuilleBtn.classList.add("active"); portefeuilleSection.style.display = "block"; };
+  btnSeDeconnecter.onclick = async () => { await signOut(auth); alert("Déconnecté"); window.location.href = "register.html"; };
+  btnVoirIban.onclick = () => { monCompteBtn.click(); };
+  btnEffectuerVirement.onclick = () => { window.location.href = "virement.html"; };
+  btnVoirCarteVirtuelle.onclick = () => { virtualCardBtn.click(); };
 
-  virementBtn.onclick = () => {
-    window.location.href = "virement.html";
-  };
-
-  virtualCardBtn.onclick = () => {
-    deselectAll();
-    virtualCardBtn.classList.add("active");
-    virtualCardModal.style.display = "flex";
-    portefeuilleSection.style.display = "none";
-    myModal.style.display = "none";
-  };
-
-  closeVirtualCardBtn.onclick = () => {
-    virtualCardModal.style.display = "none";
-    deselectAll();
-    portefeuilleBtn.classList.add("active");
-    portefeuilleSection.style.display = "block";
-  };
-
-  monCompteBtn.onclick = () => {
-    deselectAll();
-    monCompteBtn.classList.add("active");
-    myModal.style.display = "flex";
-    portefeuilleSection.style.display = "none";
-    virtualCardModal.style.display = "none";
-  };
-
-  btnCloseMyAccount.onclick = () => {
-    myModal.style.display = "none";
-    deselectAll();
-    portefeuilleBtn.classList.add("active");
-    portefeuilleSection.style.display = "block";
-  };
-
-  btnSeDeconnecter.onclick = async () => {
-    try {
-      await signOut(auth);
-      alert("Vous avez été déconnecté.");
-      // Optionally redirect
-      // window.location.href = "login.html";
-    } catch(e) {
-      console.error("Erreur déconnexion:", e);
-    }
-  };
-
-  btnVoirIban.onclick = () => {
-    deselectAll();
-    monCompteBtn.classList.add("active");
-    myModal.style.display = "flex";
-    portefeuilleSection.style.display = "none";
-    virtualCardModal.style.display = "none";
-  };
-
-  btnEffectuerVirement.onclick = () => {
-    window.location.href = "virement.html";
-  };
-
-  btnVoirCarteVirtuelle.onclick = () => {
-    deselectAll();
-    virtualCardBtn.classList.add("active");
-    virtualCardModal.style.display = "flex";
-    portefeuilleSection.style.display = "none";
-  };
-
-  // Keyboard navigation
-  [portefeuilleBtn, virementBtn, virtualCardBtn, monCompteBtn].forEach(btn => {
-    btn.addEventListener("keydown", e => {
-      if(e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        btn.click();
-      }
-    });
-  });
-
-  // Notification bell click
   notificationBtn.addEventListener("click", async () => {
     const isVisible = notificationListDiv.style.display === "block";
     if (isVisible) {
       notificationListDiv.style.display = "none";
-      notificationBtn.setAttribute("aria-expanded", "false");
-      notificationListDiv.setAttribute("hidden", "");
     } else {
       notificationListDiv.style.display = "block";
-      notificationBtn.setAttribute("aria-expanded", "true");
-      notificationListDiv.removeAttribute("hidden");
-      if (currentUserId) {
-        await markNotificationsAsSeen(currentUserId);
-      }
+      if (currentUserId) await markNotificationsAsSeen(currentUserId);
     }
   });
-
+  
   document.addEventListener("click", (e) => {
-    if(!notificationBtn.contains(e.target) && !notificationListDiv.contains(e.target)){
+    if(!notificationBtn.contains(e.target) && !notificationListDiv.contains(e.target))
       notificationListDiv.style.display = "none";
-      notificationBtn.setAttribute("aria-expanded", "false");
-      notificationListDiv.setAttribute("hidden", "");
-    }
-  });
-
-  document.addEventListener("keydown", e => {
-    if(e.key === "Escape"){
-      notificationListDiv.style.display = "none";
-      notificationBtn.setAttribute("aria-expanded", "false");
-      notificationListDiv.setAttribute("hidden", "");
-    }
   });
 </script>
 </body>
