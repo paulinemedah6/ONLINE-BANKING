@@ -566,7 +566,7 @@
       localStorage.setItem('userEmail', email);
       localStorage.setItem('userId', userCredential.user.uid);
       showGlobalMessage('Connexion réussie ! Redirection...', false);
-      setTimeout(() => { window.location.href = 'accont.html'; }, 1000);
+      setTimeout(() => { window.location.href = 'account.html'; }, 1000);
     } catch (error) {
       if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential')
         showGlobalMessage('Email ou mot de passe incorrect');
