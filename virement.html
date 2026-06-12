@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta name="robots" content="noindex, nofollow">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Virement International - Vantex</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0d47a1, #1976d2);
+      margin: 0;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      color: #eee;
+    }
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .logo img {
+      width: 100px;
+      height: auto;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+    h2 {
+      text-align: center;
+      color: #ffd54f;
+      margin-bottom: 10px;
+    }
+    .solde {
+      text-align: center;
+      font-size: 1.2em;
+      padding: 12px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .solde strong {
+      color: #ffd54f;
+      font-size: 1.3em;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #bbdefb;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 2px solid #90caf9;
+      outline: none;
+      font-size: 14px;
+      background: rgba(255,255,255,0.95);
+      color: #0d47a1;
+      font-weight: 500;
+      box-sizing: border-box;
+    }
+    input:focus, select:focus {
+      border-color: #ffd54f;
+      background: #fff8e1;
+    }
+    input.error-input {
+      border-color: #ff5252;
+      background: #ffebee;
+    }
+    .error-msg {
+      font-size: 11px;
+      color: #ff5252;
+      margin-top: 5px;
+      display: block;
+    }
+    .button-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+    .button-container button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #64b5f6, #1976d2);
+      color: white;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(25,118,210,0.5);
+    }
+    .btn-back {
+      background: linear-gradient(135deg, #d32f2f, #b71c1c);
+      color: white;
+    }
+    .btn-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(211,47,47,0.5);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      z-index: 1001;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+    .modal h3 {
+      color: #1976d2;
+      margin-bottom: 20px;
+    }
+    .modal input {
+      width: 100%;
+      margin: 15px 0;
+      text-align: center;
+      font-size: 18px;
+    }
+    .modal button {
+      margin: 5px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .progress-bar-container {
+      background: #e0e0e0;
+      border-radius: 10px;
+      height: 20px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+    .progress-bar-fill {
+      background: linear-gradient(90deg, #1976d2, #64b5f6);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+      border-radius: 10px;
+    }
+    .result-icon {
+      font-size: 48px;
+      margin: 20px 0;
+    }
+    .result-icon.success { color: #4caf50; }
+    .result-icon.fail { color: #f44336; }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid #e0e0e0;
+      border-top: 4px solid #1976d2;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    body.modal-open { overflow: hidden; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo">
+    <img src="https://raw.githubusercontent.com/Walyy578/ONLINE-BANKING/main/Design%20sans%20titre%20(2).png" alt="Logo Vantex" />
+  </div>
+  <h2>Virement International</h2>
+  <div class="solde">
+    Solde disponible : <strong id="soldeAffichage">0,00</strong> <span id="currencySymbol">Rs</span>
+  </div>
+
+  <form id="virementForm">
+    <div class="form-group">
+      <label>Montant du virement *</label>
+      <input type="number" id="montant" step="0.01" min="0.01" placeholder="0.00">
+      <span class="error-msg" id="montant-error"></span>
+    </div>
+    <div class="form-group">
+      <label>Nom du bénéficiaire *</label>
+      <input type="text" id="beneficiaire" placeholder="Nom complet">
+      <span class="error-msg" id="beneficiaire-error"></span>
+    </div>
+    <div class="form-group">
+      <label>IBAN / Numéro de compte *</label>
+      <input type="text" id="iban" placeholder="IBAN du bénéficiaire">
+      <span class="error-msg" id="iban-error"></span>
+    </div>
+    <div class="form-group">
+      <label>Code BIC / SWIFT *</label>
+      <input type="text" id="bic" placeholder="BIC/SWIFT">
+      <span class="error-msg" id="bic-error"></span>
+    </div>
+    <div class="form-group">
+      <label>Nom de la banque *</label>
+      <input type="text" id="banque" placeholder="Nom de la banque">
+      <span class="error-msg" id="banque-error"></span>
+    </div>
+    <div class="form-group">
+      <label>Raison du virement</label>
+      <input type="text" id="raison" placeholder="Motif du virement">
+    </div>
+    <div class="button-container">
+      <button type="button" class="btn-primary" id="continuerBtn">Continuer</button>
+      <button type="button" class="btn-back" id="retourBtn">Retour</button>
+    </div>
+  </form>
+</div>
+
+<div class="modal-overlay" id="modalOverlay"></div>
+
+<!-- Modal Code Confirmation -->
+<div id="codeModal" class="modal">
+  <h3>Code de confirmation</h3>
+  <p>Un code a été envoyé à votre email</p>
+  <input type="text" id="codeInput" placeholder="Entrez le code" maxlength="6">
+  <div>
+    <button id="validerCodeBtn" class="btn-primary">Valider</button>
+    <button id="annulerCodeBtn" class="btn-back">Annuler</button>
+  </div>
+  <p id="codeError" style="color:red; font-size:12px; margin-top:10px;"></p>
+</div>
+
+<!-- Modal Progression -->
+<div id="progressModal" class="modal">
+  <h3>Traitement du virement</h3>
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+  <p id="progressPercent">0%</p>
+  <div id="resultIcon" class="result-icon"></div>
+  <button id="closeProgressBtn" class="btn-back" style="display:none;">Fermer</button>
+</div>
+
+<!-- Modal Alerte -->
+<div id="alertModal" class="modal">
+  <h3 id="alertTitle">Attention</h3>
+  <p id="alertMessage"></p>
+  <button id="closeAlertBtn" class="btn-primary">OK</button>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD7ePIu7x4KbojvUD47DWSKbuqH5nzE5uc",
+    authDomain: "laafi-bf.firebaseapp.com",
+    projectId: "laafi-bf",
+    storageBucket: "laafi-bf.firebasestorage.app",
+    messagingSenderId: "837012050847",
+    appId: "1:837012050847:web:7af3904c055f74c996e3aa",
+    measurementId: "G-4TZC45GKE4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  let currentUser = null;
+  let currentBalance = 0;
+  let currentCurrency = 'Rs';
+  let currentCurrencySymbol = 'Rs';
+  let currentEmail = '';
+
+  // Code de confirmation fixe (dans une vraie app, ce serait envoyé par email)
+  const CONFIRMATION_CODE = "123456";
+  let failedAttempts = 0;
+  const MAX_ATTEMPTS = 3;
+
+  // Éléments DOM
+  const soldeSpan = document.getElementById('soldeAffichage');
+  const currencySymbolSpan = document.getElementById('currencySymbol');
+  const montantInput = document.getElementById('montant');
+  const beneficiaireInput = document.getElementById('beneficiaire');
+  const ibanInput = document.getElementById('iban');
+  const bicInput = document.getElementById('bic');
+  const banqueInput = document.getElementById('banque');
+  const raisonInput = document.getElementById('raison');
+  const continuerBtn = document.getElementById('continuerBtn');
+  const retourBtn = document.getElementById('retourBtn');
+
+  // Modals
+  const modalOverlay = document.getElementById('modalOverlay');
+  const codeModal = document.getElementById('codeModal');
+  const progressModal = document.getElementById('progressModal');
+  const alertModal = document.getElementById('alertModal');
+
+  function showModal(modal) {
+    modal.style.display = 'block';
+    modalOverlay.style.display = 'block';
+    document.body.classList.add('modal-open');
+  }
+
+  function hideModal(modal) {
+    modal.style.display = 'none';
+    modalOverlay.style.display = 'none';
+    document.body.classList.remove('modal-open');
+  }
+
+  function showAlert(message, title = 'Attention') {
+    document.getElementById('alertTitle').textContent = title;
+    document.getElementById('alertMessage').textContent = message;
+    showModal(alertModal);
+  }
+
+  function hideAllModals() {
+    hideModal(codeModal);
+    hideModal(progressModal);
+    hideModal(alertModal);
+  }
+
+  // Charger les données utilisateur
+  async function loadUserData(userId) {
+    try {
+      const userRef = doc(db, 'users', userId);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        currentCurrency = userData.currency || 'MUR';
+        currentCurrencySymbol = userData.currencySymbol || 'Rs';
+        currentEmail = userData.email || '';
+        currencySymbolSpan.textContent = currentCurrencySymbol;
+      }
+
+      const walletRef = doc(db, 'wallets', userId);
+      const walletSnap = await getDoc(walletRef);
+      if (walletSnap.exists()) {
+        currentBalance = walletSnap.data().balance || 0;
+        soldeSpan.textContent = currentBalance.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    } catch (error) {
+      console.error("Erreur chargement:", error);
+    }
+  }
+
+  // Valider le formulaire
+  function validateForm() {
+    let isValid = true;
+    
+    const montant = parseFloat(montantInput.value);
+    if (isNaN(montant) || montant <= 0) {
+      document.getElementById('montant-error').textContent = 'Montant invalide';
+      montantInput.classList.add('error-input');
+      isValid = false;
+    } else if (montant > currentBalance) {
+      document.getElementById('montant-error').textContent = `Solde insuffisant. Maximum: ${currentBalance.toLocaleString('fr-FR')} ${currentCurrencySymbol}`;
+      montantInput.classList.add('error-input');
+      isValid = false;
+    } else {
+      document.getElementById('montant-error').textContent = '';
+      montantInput.classList.remove('error-input');
+    }
+
+    if (!beneficiaireInput.value.trim()) {
+      document.getElementById('beneficiaire-error').textContent = 'Nom du bénéficiaire requis';
+      beneficiaireInput.classList.add('error-input');
+      isValid = false;
+    } else {
+      document.getElementById('beneficiaire-error').textContent = '';
+      beneficiaireInput.classList.remove('error-input');
+    }
+
+    if (!ibanInput.value.trim()) {
+      document.getElementById('iban-error').textContent = 'IBAN requis';
+      ibanInput.classList.add('error-input');
+      isValid = false;
+    } else {
+      document.getElementById('iban-error').textContent = '';
+      ibanInput.classList.remove('error-input');
+    }
+
+    if (!bicInput.value.trim()) {
+      document.getElementById('bic-error').textContent = 'Code BIC/SWIFT requis';
+      bicInput.classList.add('error-input');
+      isValid = false;
+    } else {
+      document.getElementById('bic-error').textContent = '';
+      bicInput.classList.remove('error-input');
+    }
+
+    if (!banqueInput.value.trim()) {
+      document.getElementById('banque-error').textContent = 'Nom de la banque requis';
+      banqueInput.classList.add('error-input');
+      isValid = false;
+    } else {
+      document.getElementById('banque-error').textContent = '';
+      banqueInput.classList.remove('error-input');
+    }
+
+    return isValid;
+  }
+
+  // Effectuer le virement
+  async function effectuerVirement() {
+    const montant = parseFloat(montantInput.value);
+    const beneficiaire = beneficiaireInput.value.trim();
+    const iban = ibanInput.value.trim();
+    const bic = bicInput.value.trim();
+    const banque = banqueInput.value.trim();
+    const raison = raisonInput.value.trim() || 'Virement international';
+
+    if (!currentUser) {
+      showAlert('Vous devez être connecté');
+      return;
+    }
+
+    try {
+      const walletRef = doc(db, 'wallets', currentUser.uid);
+      const newBalance = currentBalance - montant;
+      
+      const transaction = {
+        id: Date.now(),
+        type: 'sent',
+        amount: montant,
+        counterparty: beneficiaire,
+        iban: iban,
+        bic: bic,
+        banque: banque,
+        date: new Date().toISOString(),
+        description: raison
+      };
+
+      const notification = {
+        id: Date.now(),
+        message: `Virement de ${montant.toLocaleString('fr-FR')} ${currentCurrencySymbol} effectué à ${beneficiaire}`,
+        read: false,
+        date: new Date().toISOString()
+      };
+
+      await updateDoc(walletRef, {
+        balance: newBalance,
+        transactions: arrayUnion(transaction),
+        notifications: arrayUnion(notification),
+        unseenNotifications: arrayUnion(notification.id)
+      });
+
+      currentBalance = newBalance;
+      soldeSpan.textContent = currentBalance.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      
+      return true;
+    } catch (error) {
+      console.error("Erreur virement:", error);
+      return false;
+    }
+  }
+
+  // Animation de progression
+  async function startProgression() {
+    let progress = 0;
+    const progressFill = document.getElementById('progressFill');
+    const progressPercent = document.getElementById('progressPercent');
+    const resultIcon = document.getElementById('resultIcon');
+    
+    progressFill.style.width = '0%';
+    progressPercent.textContent = '0%';
+    resultIcon.innerHTML = '';
+    resultIcon.className = 'result-icon';
+    
+    return new Promise((resolve) => {
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 15) + 5;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          progressFill.style.width = '100%';
+          progressPercent.textContent = '100%';
+          
+          setTimeout(async () => {
+            const success = await effectuerVirement();
+            if (success) {
+              resultIcon.innerHTML = '✓';
+              resultIcon.classList.add('success');
+              resultIcon.style.fontSize = '48px';
+              progressPercent.textContent = 'Virement réussi !';
+              setTimeout(() => {
+                hideModal(progressModal);
+                showAlert('Virement effectué avec succès !', 'Succès');
+                resetForm();
+              }, 1500);
+            } else {
+              resultIcon.innerHTML = '✗';
+              resultIcon.classList.add('fail');
+              resultIcon.style.fontSize = '48px';
+              progressPercent.textContent = 'Échec du virement';
+              setTimeout(() => {
+                hideModal(progressModal);
+                showAlert('Erreur lors du virement. Veuillez réessayer.', 'Erreur');
+              }, 1500);
+            }
+            resolve(success);
+          }, 500);
+        } else {
+          progressFill.style.width = `${progress}%`;
+          progressPercent.textContent = `${progress}%`;
+        }
+      }, 300);
+    });
+  }
+
+  function resetForm() {
+    montantInput.value = '';
+    beneficiaireInput.value = '';
+    ibanInput.value = '';
+    bicInput.value = '';
+    banqueInput.value = '';
+    raisonInput.value = '';
+    failedAttempts = 0;
+    document.querySelectorAll('.error-input').forEach(el => el.classList.remove('error-input'));
+    document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+  }
+
+  // Gestion du code de confirmation
+  function showCodeModal() {
+    document.getElementById('codeInput').value = '';
+    document.getElementById('codeError').textContent = '';
+    showModal(codeModal);
+  }
+
+  function verifyCode() {
+    const enteredCode = document.getElementById('codeInput').value.trim();
+    if (enteredCode === CONFIRMATION_CODE) {
+      failedAttempts = 0;
+      hideModal(codeModal);
+      showModal(progressModal);
+      startProgression();
+    } else {
+      failedAttempts++;
+      const remaining = MAX_ATTEMPTS - failedAttempts;
+      if (failedAttempts >= MAX_ATTEMPTS) {
+        document.getElementById('codeError').textContent = 'Code incorrect 3 fois. Virement annulé.';
+        setTimeout(() => {
+          hideModal(codeModal);
+          showAlert('Trop de tentatives. Virement annulé.', 'Erreur');
+          failedAttempts = 0;
+        }, 1500);
+      } else {
+        document.getElementById('codeError').textContent = `Code incorrect. Plus que ${remaining} tentative(s).`;
+      }
+    }
+  }
+
+  // Événements
+  continuerBtn.addEventListener('click', () => {
+    if (validateForm()) {
+      showCodeModal();
+    }
+  });
+
+  retourBtn.addEventListener('click', () => {
+    window.location.href = 'dashboard.html';
+  });
+
+  document.getElementById('validerCodeBtn').addEventListener('click', verifyCode);
+  document.getElementById('annulerCodeBtn').addEventListener('click', () => {
+    hideModal(codeModal);
+    resetForm();
+  });
+  document.getElementById('closeProgressBtn').addEventListener('click', () => {
+    hideModal(progressModal);
+    window.location.href = 'dashboard.html';
+  });
+  document.getElementById('closeAlertBtn').addEventListener('click', () => {
+    hideModal(alertModal);
+    if (document.getElementById('alertTitle').textContent === 'Succès') {
+      window.location.href = 'dashboard.html';
+    }
+  });
+
+  // Gestion de l'authentification
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUser = user;
+      await loadUserData(user.uid);
+    } else {
+      // Rediriger vers login si non connecté
+      window.location.href = 'login.html';
+    }
+  });
+
+  // Validation en temps réel
+  montantInput.addEventListener('input', () => {
+    const montant = parseFloat(montantInput.value);
+    if (!isNaN(montant) && montant > 0 && montant <= currentBalance) {
+      montantInput.classList.remove('error-input');
+      document.getElementById('montant-error').textContent = '';
+    }
+  });
+
+  // Code input - seulement chiffres
+  document.getElementById('codeInput').addEventListener('input', (e) => {
+    e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 6);
+  });
+</script>
+</body>
+</html>
