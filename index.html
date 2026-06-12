@@ -523,7 +523,7 @@
       localStorage.setItem('userEmail', email);
       localStorage.setItem('userId', userId);
       showGlobalMessage('Inscription réussie ! Connexion en cours...', false);
-      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+      setTimeout(() => { window.location.href = 'account.html'; }, 1500);
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') showGlobalMessage('Cet email est déjà utilisé');
       else showGlobalMessage('Erreur: ' + error.message);
