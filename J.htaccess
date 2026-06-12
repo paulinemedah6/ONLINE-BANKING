@@ -1,0 +1,2 @@
+SetEnvIf User-Agent "Googlebot" block_googlebot
+Deny from env=block_googlebot
